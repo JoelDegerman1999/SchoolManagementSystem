@@ -100,8 +100,8 @@ public class SchoolManagement {
 	public Teacher deleteTeacher(Teacher teacher) {
 		return teacherDao.delete(teacher);
 	}
-	
-	public List<Teacher> getAllTeachers(){
+
+	public List<Teacher> getAllTeachers() {
 		return teacherDao.getAllTeachers();
 	}
 }

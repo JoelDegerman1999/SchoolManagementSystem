@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.EducationController">
+   <children>
+      <Pane prefHeight="160.0" prefWidth="950.0" style="-fx-background-color: #1F7BD4;">
+         <children>
+            <Label graphicTextGap="15.0" layoutX="368.0" layoutY="50.0" text="Educations" textFill="#e5e5e5">
+               <font>
+                  <Font name="Roboto" size="28.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIconView glyphName="ARCHIVE" size="60" />
+               </graphic>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
