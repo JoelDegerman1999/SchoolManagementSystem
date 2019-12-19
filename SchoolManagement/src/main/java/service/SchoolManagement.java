@@ -52,7 +52,7 @@ public class SchoolManagement {
 	}
 
 	// Education
-	public Education createEducation(String name, String startDate, String educationLength) {
+	public Education createEducation(String name, LocalDate startDate, LocalDate educationLength) {
 		return educationDao.create(name, startDate, educationLength);
 	}
 
@@ -70,6 +70,10 @@ public class SchoolManagement {
 
 	public Education deleteEducation(Education education) {
 		return educationDao.delete(education);
+	}
+	
+	public List<Education> getAllEducations(){
+		return educationDao.getAllEducations();
 	}
 
 	// Student

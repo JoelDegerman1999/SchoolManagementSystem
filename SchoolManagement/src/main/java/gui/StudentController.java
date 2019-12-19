@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import domain.Course;
 import domain.Student;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -22,8 +21,6 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import service.SchoolManagement;
 
@@ -100,6 +97,8 @@ public class StudentController implements Initializable {
 	public void createStudent() {
 		LocalDate date = datePicker.getValue();
 		sm.createStudent(textFieldName.getText(), date);
+		textFieldName.clear();
+		datePicker.getEditor().clear();
 		updateTableView();
 	}
 

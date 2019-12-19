@@ -32,6 +32,10 @@ public class Course {
 		teachers = new ArrayList<Teacher>();
 	}
 
+	public List<Education> getEducations() {
+		return educations;
+	}
+	
 	public String getSubject() {
 		return this.subject;
 	}

@@ -3,9 +3,10 @@
  */
 package domain;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Basic;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,9 +26,9 @@ public class Education {
 
 	private String name;
 
-	private String startDate;
+	private LocalDate startDate;
 
-	private String educationLength;
+	private LocalDate endDate;
 
 	public Education() {
 	}
@@ -38,10 +39,23 @@ public class Education {
 	@ManyToMany(mappedBy = "educations")
 	private List<Course> courses;
 
-	public Education(String name, String startDate, String educationLength) {
+	public Education(String name, LocalDate startDate, LocalDate endDate) {
 		this.name = name;
 		this.startDate = startDate;
-		this.educationLength = educationLength;
+		this.endDate = endDate;
+	}
+
+	public void addStudent(Student student) {
+		this.students.add(student);
+	}
+
+	public void addCourse(Course course) {
+		this.courses.add(course);
+		course.getEducations().add(this);
+	}
+	
+	public int getId() {
+		return id;
 	}
 
 	public String getName() {
@@ -52,20 +66,20 @@ public class Education {
 		this.name = name;
 	}
 
-	public String getStartDate() {
+	public LocalDate getStartDate() {
 		return this.startDate;
 	}
 
-	public void setStartDate(String startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
-	public String getEducationLength() {
-		return this.educationLength;
+	public LocalDate getEndDate() {
+		return endDate;
 	}
-
-	public void setEducationLength(String educationLength) {
-		this.educationLength = educationLength;
+	
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
 	}
 
 	public List<Student> getStudents() {
@@ -79,29 +93,11 @@ public class Education {
 		this.students = students;
 	}
 
-	public void addStudent(Student student) {
-		getStudents().add(student);
-		student.setEducation(this);
-	}
-
-	public void removeStudent(Student student) {
-		getStudents().remove(student);
-		student.setEducation(null);
-	}
-
 	public List<Course> getCourses() {
 		if (courses == null) {
 			courses = new ArrayList<>();
 		}
 		return this.courses;
-	}
-
-	public void setCourses(List<Course> courses) {
-		this.courses = courses;
-	}
-
-	public void addCourse(Course course) {
-		getCourses().add(course);
 	}
 
 	public void removeCourse(Course course) {

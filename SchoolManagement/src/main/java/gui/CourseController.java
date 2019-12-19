@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import domain.Course;
-import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,8 +12,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -31,6 +32,8 @@ public class CourseController implements Initializable {
 	private TableColumn<Integer, Course> id;
 	@FXML
 	private TableColumn<String, Course> subjectName;
+	@FXML
+	private TableColumn<Course, Void> educationButtonColumn;
 
 	@FXML
 	private TextField textFieldName;
@@ -46,6 +49,7 @@ public class CourseController implements Initializable {
 
 		updateTableView();
 		deleteTableRow();
+		addButtonToTable();
 	}
 
 	private void updateTableView() {
@@ -84,6 +88,42 @@ public class CourseController implements Initializable {
 				return row;
 			}
 		});
+	}
+
+	private void addButtonToTable() {
+
+		Callback<TableColumn<Course, Void>, TableCell<Course, Void>> cellFactory = new Callback<TableColumn<Course, Void>, TableCell<Course, Void>>() {
+			@Override
+			public TableCell<Course, Void> call(final TableColumn<Course, Void> param) {
+				final TableCell<Course, Void> cell = new TableCell<Course, Void>() {
+
+					private final Button btn = new Button("Educations");
+					{
+						btn.setOnAction((ActionEvent event) ->{
+							// TODO Gör så att det öppnas ett litet fönster som visar alla educations som denna kurs finns inom, gör så att man kan lägga till och ta bort.
+							System.out.println("Opening educations");
+						});
+					}
+					
+					
+					
+					@Override
+					public void updateItem(Void item, boolean empty) {
+						super.updateItem(item, empty);
+						if (empty) {
+							setGraphic(null);
+						} else {
+							setGraphic(btn);
+						}
+					}
+				};
+				return cell;
+			}
+		};
+
+		educationButtonColumn.setCellFactory(cellFactory);
+
+
 	}
 
 	public void createCourse() {

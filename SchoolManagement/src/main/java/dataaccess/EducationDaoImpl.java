@@ -1,5 +1,8 @@
 package dataaccess;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -11,7 +14,7 @@ public class EducationDaoImpl implements EducationDao {
 	EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
 
 	@Override
-	public Education create(String name, String startDate, String educationLength) {
+	public Education create(String name, LocalDate startDate, LocalDate educationLength) {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		Education education = new Education(name, startDate, educationLength);
@@ -61,5 +64,17 @@ public class EducationDaoImpl implements EducationDao {
 		em.close();
 		return edcuation;
 	}
+
+	@Override
+	public List<Education> getAllEducations() {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		List<Education> edcuation = em.createQuery("select e from Education as e", Education.class).getResultList();
+		em.getTransaction().commit();
+		em.close();
+		return edcuation;
+	}
+	
+	
 
 }

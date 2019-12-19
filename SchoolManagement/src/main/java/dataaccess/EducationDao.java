@@ -1,9 +1,12 @@
 package dataaccess;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import domain.Education;
 
 public interface EducationDao {
-	public Education create(String name, String startDate, String educationLength);
+	public Education create(String name, LocalDate startDate, LocalDate educationLength);
 
 	public Education update(Education education);
 
@@ -12,4 +15,6 @@ public interface EducationDao {
 	public Education getEducationById(int id);
 
 	public Education getEducationByName(String name);
+
+	public List<Education> getAllEducations();
 }

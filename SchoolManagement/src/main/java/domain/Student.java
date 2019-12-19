@@ -9,6 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 
+/**
+ * @author Joel
+ *
+ */
 @Entity
 public class Student {
 
@@ -23,9 +27,6 @@ public class Student {
 	public Student() {
 	}
 
-	public void createCourse() {
-
-	}
 
 	@ManyToOne
 	private Education education;
@@ -62,5 +63,11 @@ public class Student {
 	public int getId() {
 		return id;
 	}
+	
+	@Override
+		public String toString() {
+			return "[" + getId() + "]" + " " + getName();
+		}
+
 
 }
