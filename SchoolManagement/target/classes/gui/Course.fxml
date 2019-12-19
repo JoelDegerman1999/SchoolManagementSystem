@@ -1,24 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CourseController">
-   <children>
-      <Pane prefHeight="160.0" prefWidth="950.0" style="-fx-background-color: #1F7BD4;">
-         <children>
-            <Label graphicTextGap="15.0" layoutX="388.0" layoutY="50.0" text="Courses" textFill="#e5e5e5">
-               <font>
-                  <Font name="Roboto" size="28.0" />
-               </font>
-               <graphic>
-                  <FontAwesomeIconView glyphName="BOOK" size="60" />
-               </graphic>
-            </Label>
-         </children>
-      </Pane>
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CourseController">
+	<children>
+		<Pane prefHeight="160.0" prefWidth="950.0" style="-fx-background-color: #1F7BD4;">
+			<children>
+				<Label graphicTextGap="15.0" layoutX="388.0" layoutY="50.0" text="Courses" textFill="#e5e5e5">
+					<font>
+						<Font name="Roboto" size="28.0" />
+					</font>
+					<graphic>
+						<FontAwesomeIconView glyphName="BOOK" size="60" />
+					</graphic>
+				</Label>
+			</children>
+		</Pane>
+		<AnchorPane layoutX="-8.0" layoutY="160.0" prefHeight="440.0" prefWidth="950.0">
+			<children>
+				<TableView layoutX="14.0" layoutY="40.0" prefHeight="360.0">
+					<columns>
+						<TableColumn prefWidth="75.0" resizable="false" text="ID" />
+						<TableColumn prefWidth="100.0" resizable="false" text="Subject" />
+						<TableColumn prefWidth="100.0" resizable="false" text="Educations" />
+						<TableColumn prefWidth="100.0" resizable="false" text="Teachers" />
+					</columns>
+				</TableView>
+				<VBox alignment="CENTER" layoutX="482.0" layoutY="40.0" prefHeight="360.0" prefWidth="295.0" spacing="15.0">
+					<children>
+						<HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="34.0">
+							<children>
+								<Label text="Subject">
+									<font>
+										<Font name="Roboto" size="12.0" />
+									</font>
+								</Label>
+								<TextField alignment="CENTER" prefWidth="170.0" />
+							</children>
+						</HBox>
+						<HBox alignment="CENTER_LEFT" spacing="18.0">
+							<children>
+								<Label text="Date Hired">
+									<font>
+										<Font name="Roboto" size="12.0" />
+									</font>
+								</Label>
+								<DatePicker prefWidth="170.0" />
+							</children>
+						</HBox>
+						<Button mnemonicParsing="false" stylesheets="@application.css" text="Add course" />
+					</children>
+				</VBox>
+			</children>
+		</AnchorPane>
+	</children>
 </AnchorPane>

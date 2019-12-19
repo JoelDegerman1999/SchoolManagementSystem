@@ -23,13 +23,10 @@ public class Education {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Basic
 	private String name;
 
-	@Basic
 	private String startDate;
 
-	@Basic
 	private String educationLength;
 
 	public Education() {
