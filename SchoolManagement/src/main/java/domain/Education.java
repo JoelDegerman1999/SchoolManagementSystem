@@ -43,6 +43,8 @@ public class Education {
 		this.name = name;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		students = new ArrayList<Student>();
+		courses = new ArrayList<Course>();
 	}
 
 	public void addStudent(Student student) {

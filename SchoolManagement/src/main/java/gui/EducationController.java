@@ -1,13 +1,14 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import org.controlsfx.control.CheckComboBox;
+import org.controlsfx.control.PropertySheet.Item;
 
-import domain.Course;
 import domain.Education;
 import domain.Student;
 import javafx.beans.binding.Bindings;
@@ -16,15 +17,22 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import service.SchoolManagement;
 
@@ -34,6 +42,12 @@ public class EducationController implements Initializable {
 
 	@FXML
 	private CheckComboBox<Student> checkComboBox;
+	@FXML
+	private DatePicker startDatePicker;
+	@FXML
+	private DatePicker endDatePicker;
+	@FXML
+	private TextField nameTextField;
 
 	@FXML
 	private TableView<Education> table;
@@ -65,6 +79,16 @@ public class EducationController implements Initializable {
 		deleteTableRow();
 	}
 
+	public void createEducation() {
+		Education education = sm.createEducation(nameTextField.getText(), startDatePicker.getValue(),
+				endDatePicker.getValue());
+		ObservableList<Student> students = checkComboBox.getItems();
+		for (Student student : students) {
+			education.addStudent(student);
+		}
+		updateTableView();
+	}
+
 	private void updateTableView() {
 		table.getItems().clear();
 		ObservableList<Education> observableList = FXCollections.observableArrayList();
@@ -88,9 +112,31 @@ public class EducationController implements Initializable {
 					private final Button btn = new Button("Students");
 					{
 						btn.setOnAction((ActionEvent event) -> {
-							// TODO Gör så att det öppnas ett litet fönster som visar alla educations som
-							// denna kurs finns inom, gör så att man kan lägga till och ta bort.
-							System.out.println("Opening educations");
+							Parent root;
+							try {
+								FXMLLoader fxmlLoader = new FXMLLoader(
+										getClass().getResource("/gui/EducationStudent.fxml"));
+
+								root = fxmlLoader.load();
+								Stage stage = new Stage();
+								stage.setTitle("Students");
+								stage.setScene(new Scene(root));
+
+								EducationStudentController controller = fxmlLoader
+										.<EducationStudentController>getController();
+								@SuppressWarnings("unchecked")
+								TablePosition<Education, Integer> pos = table.getSelectionModel().getSelectedCells()
+										.get(0);
+								int row = pos.getRow();
+								Education item = table.getItems().get(row);
+								TableColumn<Education, Integer> col = pos.getTableColumn();
+								int data = col.getCellObservableValue(item).getValue();
+								System.out.println(data);
+								controller.setIdToUse(data);
+								stage.show();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
 						});
 					}
 
