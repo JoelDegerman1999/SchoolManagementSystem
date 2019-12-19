@@ -1,5 +1,6 @@
 package service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import dataaccess.CourseDaoImpl;
@@ -45,6 +46,10 @@ public class SchoolManagement {
 	public Course deleteCourse(Course course) {
 		return courseDao.delete(course);
 	}
+	
+	public List<Course> getAllCourses(){
+		return courseDao.getAllCourses();
+	}
 
 	// Education
 	public Education createEducation(String name, String startDate, String educationLength) {
@@ -68,7 +73,7 @@ public class SchoolManagement {
 	}
 
 	// Student
-	public Student createStudent(String name, String birthDate) {
+	public Student createStudent(String name, LocalDate birthDate) {
 		return studentDao.create(name, birthDate);
 	}
 
@@ -82,6 +87,10 @@ public class SchoolManagement {
 
 	public Student deleteStudent(Student student) {
 		return studentDao.delete(student);
+	}
+	
+	public List<Student> getAllStudents(){
+		return studentDao.getAllStudents();
 	}
 
 	// Teacher

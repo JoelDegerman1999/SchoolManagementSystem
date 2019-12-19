@@ -35,6 +35,7 @@ public class EducationDaoImpl implements EducationDao {
 	public Education delete(Education education) {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
+		education = em.merge(education);
 		em.remove(education);
 		em.getTransaction().commit();
 		em.close();

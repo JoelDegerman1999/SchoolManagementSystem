@@ -37,6 +37,7 @@ public class TeacherDaoImpl implements TeacherDao {
 	public Teacher delete(Teacher teacher) {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
+		teacher = em.merge(teacher);
 		em.remove(teacher);
 		em.getTransaction().commit();
 		em.close();

@@ -1,5 +1,7 @@
 package domain;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +18,7 @@ public class Student {
 
 	private String name;
 
-	private String birthdate;
+	private LocalDate birthdate;
 
 	public Student() {
 	}
@@ -28,7 +30,7 @@ public class Student {
 	@ManyToOne
 	private Education education;
 
-	public Student(String name, String birthdate) {
+	public Student(String name, LocalDate birthdate) {
 		this.name = name;
 		this.birthdate = birthdate;
 	}
@@ -41,11 +43,11 @@ public class Student {
 		this.name = name;
 	}
 
-	public String getBirthdate() {
-		return this.birthdate;
+	public LocalDate getBirthdate() {
+		return birthdate;
 	}
-
-	public void setBirthdate(String birthdate) {
+	
+	public void setBirthdate(LocalDate birthdate) {
 		this.birthdate = birthdate;
 	}
 
@@ -55,6 +57,10 @@ public class Student {
 
 	public void setEducation(Education education) {
 		this.education = education;
+	}
+	
+	public int getId() {
+		return id;
 	}
 
 }

@@ -43,6 +43,10 @@ public class Course {
 	public List<Teacher> getTeachers() {
 		return this.teachers;
 	}
+	
+	public int getId() {
+		return id;
+	}
 
 	public String test() {
 		StringBuilder builder = new StringBuilder();
