@@ -75,6 +75,10 @@ public class SchoolManagement {
 	public List<Education> getAllEducations(){
 		return educationDao.getAllEducations();
 	}
+	
+	public List<Education> getAllEducationsWithStudents(){
+		return educationDao.getAllEducationsWithStudents();
+	}
 
 	// Student
 	public Student createStudent(String name, LocalDate birthDate) {

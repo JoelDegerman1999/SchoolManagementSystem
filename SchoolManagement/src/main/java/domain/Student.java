@@ -2,6 +2,7 @@ package domain;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,7 +29,7 @@ public class Student {
 	}
 
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
 	private Education education;
 
 	public Student(String name, LocalDate birthdate) {

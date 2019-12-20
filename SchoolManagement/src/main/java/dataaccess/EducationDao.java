@@ -17,4 +17,8 @@ public interface EducationDao {
 	public Education getEducationByName(String name);
 
 	public List<Education> getAllEducations();
+
+	public List<Education> getAllEducationsWithStudents();
+
+	public List<Education> getAllEducationsWithCourses();
 }

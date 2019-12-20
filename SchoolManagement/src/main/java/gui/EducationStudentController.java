@@ -9,6 +9,7 @@ import org.controlsfx.control.CheckComboBox;
 
 import domain.Education;
 import domain.Student;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -47,7 +48,9 @@ public class EducationStudentController implements Initializable {
 		System.out.println(getIdToUse());
 		table.getItems().clear();
 		Education education = sm.getEducationById(getIdToUse());
-		List<Student> students =education.getStudents();
+		System.out.println(education);
+		List<Student> students = education.getStudents();
+		System.out.println(students);
 		
 		for (Student student : students) {
 			System.out.println(student);

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.controlsfx.control.CheckComboBox;
-import org.controlsfx.control.PropertySheet.Item;
 
 import domain.Education;
 import domain.Student;
@@ -67,26 +66,40 @@ public class EducationController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		sm = new SchoolManagement();
-		List<Student> students = sm.getAllStudents();
-		checkComboBox.getItems().addAll(students);
 		id.setCellValueFactory(new PropertyValueFactory<>("id"));
 		name.setCellValueFactory(new PropertyValueFactory<>("name"));
 		startDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
 		endDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+		addItemsToComboBox();
 		updateTableView();
 		addButtonToColumnStudents();
 		addButtonToColumnCourse();
 		deleteTableRow();
 	}
 
+	private void addItemsToComboBox() {
+		checkComboBox.getItems().clear();
+		List<Student> students = sm.getAllStudents();
+		for (Student student : students) {
+			if(student.getEducation() == null) {
+				checkComboBox.getItems().add(student);
+			}
+		}
+		System.out.println("Update combobox");
+	}
+
 	public void createEducation() {
 		Education education = sm.createEducation(nameTextField.getText(), startDatePicker.getValue(),
 				endDatePicker.getValue());
 		ObservableList<Student> students = checkComboBox.getItems();
+		
 		for (Student student : students) {
+			System.out.println(student);
 			education.addStudent(student);
 		}
+		sm.updateEducation(education);
 		updateTableView();
+		addItemsToComboBox();
 	}
 
 	private void updateTableView() {

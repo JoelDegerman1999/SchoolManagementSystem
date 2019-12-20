@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,7 +34,7 @@ public class Education {
 	public Education() {
 	}
 
-	@OneToMany(mappedBy = "education")
+	@OneToMany(mappedBy = "education", cascade = CascadeType.MERGE)
 	private List<Student> students;
 
 	@ManyToMany(mappedBy = "educations")
@@ -49,6 +50,7 @@ public class Education {
 
 	public void addStudent(Student student) {
 		this.students.add(student);
+		student.setEducation(this);
 	}
 
 	public void addCourse(Course course) {
