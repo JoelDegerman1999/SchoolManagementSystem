@@ -9,12 +9,20 @@ import org.controlsfx.control.CheckComboBox;
 
 import domain.Education;
 import domain.Student;
+import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 import service.SchoolManagement;
 
 public class EducationStudentController implements Initializable {
@@ -33,37 +41,102 @@ public class EducationStudentController implements Initializable {
 	private TableColumn<Student, LocalDate> birthdateColumn;
 
 	@FXML
+	private TextField idTextField;
+
+	@FXML
 	private CheckComboBox<Student> checkComboBox;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		sm = new SchoolManagement();
+		setup();
+
+	}
+
+	private void setup() {
 		idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 		birthdateColumn.setCellValueFactory(new PropertyValueFactory<>("birthdate"));
-		System.out.println(getIdToUse());
+		addItemsToComboBox();
+		deleteRowWithContextMenuDropdown();
 	}
 
-	public void updateTable() {
-		System.out.println(getIdToUse());
+	public void updateTableViewToShowStudents() {
+		Education education = sm.getEducationById(getIdOfEducation());
 		table.getItems().clear();
-		Education education = sm.getEducationById(getIdToUse());
-		System.out.println(education);
 		List<Student> students = education.getStudents();
-		System.out.println(students);
-		
+
 		for (Student student : students) {
-			System.out.println(student);
 			table.getItems().add(student);
 		}
-		
+
 	}
 
-	public void setIdToUse(int idToUse) {
+	private void addItemsToComboBox() {
+		checkComboBox.getItems().clear();
+		List<Student> students = sm.getAllStudents();
+		for (Student student : students) {
+			if (student.getEducation() == null) {
+				checkComboBox.getItems().add(student);
+			}
+		}
+	}
+
+	public void addStudentToEducationStudentGroup() {
+		Education education = sm.getEducationById(getIdOfEducation());
+		ObservableList<Student> students = checkComboBox.getCheckModel().getCheckedItems();
+
+		for (Student student : students) {
+			if (student != null)
+				education.addStudentToEducation(student);
+		}
+
+		sm.updateEducation(education);
+		updateTableViewToShowStudents();
+		addItemsToComboBox();
+	}
+
+	private void deleteRowWithContextMenuDropdown() {
+
+		table.setRowFactory(new Callback<TableView<Student>, TableRow<Student>>() {
+			Education e = null;
+			Student s = null;
+
+			@Override
+			public TableRow<Student> call(TableView<Student> tableView) {
+				final TableRow<Student> row = new TableRow<>();
+				final ContextMenu contextMenu = new ContextMenu();
+				final MenuItem removeMenuItem = new MenuItem("Remove");
+				removeMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						table.getItems().remove(row.getItem());
+
+//						addItemsToComboBox();
+						e = sm.getEducationById(row.getItem().getEducation().getId());
+						s = sm.getStudentById(row.getItem().getId());
+
+						e.removeStudentFromEducation(s);
+						sm.updateStudent(s);
+						addItemsToComboBox();
+					}
+				});
+				contextMenu.getItems().add(removeMenuItem);
+
+				// Set context menu on row, but use a binding to make it only show for non-empty
+				// rows:
+				row.contextMenuProperty()
+						.bind(Bindings.when(row.emptyProperty()).then((ContextMenu) null).otherwise(contextMenu));
+				return row;
+			}
+		});
+	}
+
+	public void setIdOfEducation(int idToUse) {
 		this.idToUse = idToUse;
 	}
 
-	public int getIdToUse() {
+	public int getIdOfEducation() {
 		return idToUse;
 	}
 

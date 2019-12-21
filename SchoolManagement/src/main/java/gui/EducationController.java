@@ -66,52 +66,56 @@ public class EducationController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		sm = new SchoolManagement();
+		setup();
+
+	}
+
+	private void setup() {
 		id.setCellValueFactory(new PropertyValueFactory<>("id"));
 		name.setCellValueFactory(new PropertyValueFactory<>("name"));
 		startDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
 		endDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
 		addItemsToComboBox();
-		updateTableView();
+		updateTableViewToShowEducations();
 		addButtonToColumnStudents();
 		addButtonToColumnCourse();
-		deleteTableRow();
+		deleteRowWithContextMenuDropdown();
 	}
 
 	private void addItemsToComboBox() {
 		checkComboBox.getItems().clear();
 		List<Student> students = sm.getAllStudents();
 		for (Student student : students) {
-			if(student.getEducation() == null) {
+			if (student.getEducation() == null) {
 				checkComboBox.getItems().add(student);
 			}
 		}
-		System.out.println("Update combobox");
 	}
 
 	public void createEducation() {
 		Education education = sm.createEducation(nameTextField.getText(), startDatePicker.getValue(),
 				endDatePicker.getValue());
-		ObservableList<Student> students = checkComboBox.getItems();
-		
+		ObservableList<Student> students = checkComboBox.getCheckModel().getCheckedItems();
+
 		for (Student student : students) {
-			System.out.println(student);
-			education.addStudent(student);
+			if (student != null)
+				education.addStudentToEducation(student);
 		}
 		sm.updateEducation(education);
-		updateTableView();
+		updateTableViewToShowEducations();
 		addItemsToComboBox();
 	}
 
-	private void updateTableView() {
+	private void updateTableViewToShowEducations() {
 		table.getItems().clear();
 		ObservableList<Education> observableList = FXCollections.observableArrayList();
 
 		List<Education> educations = sm.getAllEducations();
 
 		for (Education education : educations) {
-			observableList.add(education);
+			if (education != null)
+				observableList.add(education);
 		}
-
 		table.setItems(observableList);
 	}
 
@@ -145,7 +149,7 @@ public class EducationController implements Initializable {
 								TableColumn<Education, Integer> col = pos.getTableColumn();
 								int data = col.getCellObservableValue(item).getValue();
 								System.out.println(data);
-								controller.setIdToUse(data);
+								controller.setIdOfEducation(data);
 								stage.show();
 							} catch (IOException e) {
 								e.printStackTrace();
@@ -205,7 +209,7 @@ public class EducationController implements Initializable {
 
 	}
 
-	private void deleteTableRow() {
+	private void deleteRowWithContextMenuDropdown() {
 		table.setRowFactory(new Callback<TableView<Education>, TableRow<Education>>() {
 			@Override
 			public TableRow<Education> call(TableView<Education> tableView) {
@@ -215,8 +219,13 @@ public class EducationController implements Initializable {
 				removeMenuItem.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
-						sm.deleteEducation(row.getItem());
+						Education education = sm.getEducationById(row.getItem().getId());
+						for (Student student : education.getStudents()) {
+							student.setEducation(null);
+						}
 						table.getItems().remove(row.getItem());
+						sm.deleteEducation(education);
+						addItemsToComboBox();
 
 					}
 				});

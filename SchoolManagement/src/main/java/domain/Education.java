@@ -34,7 +34,7 @@ public class Education {
 	public Education() {
 	}
 
-	@OneToMany(mappedBy = "education", cascade = CascadeType.MERGE)
+	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "education")
 	private List<Student> students;
 
 	@ManyToMany(mappedBy = "educations")
@@ -48,14 +48,23 @@ public class Education {
 		courses = new ArrayList<Course>();
 	}
 
-	public void addStudent(Student student) {
+	public void addStudentToEducation(Student student) {
 		this.students.add(student);
 		student.setEducation(this);
 	}
 
-	public void addCourse(Course course) {
+	public void addCourseToEducation(Course course) {
 		this.courses.add(course);
 		course.getEducations().add(this);
+	}
+	
+	public void removeStudentFromEducation(Student student) {
+		this.students.remove(student);
+		student.setEducation(null);
+	}
+	
+	public void removeCourseFromEducation(Course course) {
+		getCourses().remove(course);
 	}
 	
 	public int getId() {
@@ -104,8 +113,30 @@ public class Education {
 		return this.courses;
 	}
 
-	public void removeCourse(Course course) {
-		getCourses().remove(course);
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Education other = (Education) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
+	
+	
 
 }
