@@ -69,7 +69,7 @@ public class CourseDaoImpl implements CourseDao {
 	public List<Course> getAllCourses() {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
-		List<Course> courses = em.createQuery("select c from Course as c", Course.class).getResultList();
+		List<Course> courses = em.createQuery("select c from Course as c left join fetch c.educations", Course.class).getResultList();
 		em.getTransaction().commit();
 		em.close();
 		return courses;

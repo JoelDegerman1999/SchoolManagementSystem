@@ -56,8 +56,12 @@ public class SchoolManagement {
 		return educationDao.create(name, startDate, educationLength);
 	}
 
-	public Education getEducationById(int id) {
-		return educationDao.getEducationById(id);
+	public Education getEducationByIdWithStudents(int id) {
+		return educationDao.getEducationByIdWithStudents(id);
+	}
+	
+	public Education getEducationByIdWithCourses(int id) {
+		return educationDao.getEducationByIdWithCourses(id);
 	}
 
 	public Education getEducationByName(String name) {

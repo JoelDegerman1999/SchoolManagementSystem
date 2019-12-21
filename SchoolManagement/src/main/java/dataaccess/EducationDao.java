@@ -12,7 +12,7 @@ public interface EducationDao {
 
 	public Education delete(Education education);
 
-	public Education getEducationById(int id);
+	public Education getEducationByIdWithStudents(int id);
 
 	public Education getEducationByName(String name);
 
@@ -21,4 +21,6 @@ public interface EducationDao {
 	public List<Education> getAllEducationsWithStudents();
 
 	public List<Education> getAllEducationsWithCourses();
+
+	public Education getEducationByIdWithCourses(int id);
 }

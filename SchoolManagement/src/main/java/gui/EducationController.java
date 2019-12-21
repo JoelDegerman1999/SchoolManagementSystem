@@ -75,35 +75,35 @@ public class EducationController implements Initializable {
 		name.setCellValueFactory(new PropertyValueFactory<>("name"));
 		startDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
 		endDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-		addItemsToComboBox();
+//		addItemsToComboBox();
 		updateTableViewToShowEducations();
 		addButtonToColumnStudents();
 		addButtonToColumnCourse();
 		deleteRowWithContextMenuDropdown();
 	}
 
-	private void addItemsToComboBox() {
-		checkComboBox.getItems().clear();
-		List<Student> students = sm.getAllStudents();
-		for (Student student : students) {
-			if (student.getEducation() == null) {
-				checkComboBox.getItems().add(student);
-			}
-		}
-	}
+//	private void addItemsToComboBox() {
+//		checkComboBox.getItems().clear();
+//		List<Student> students = sm.getAllStudents();
+//		for (Student student : students) {
+//			if (student.getEducation() == null) {
+//				checkComboBox.getItems().add(student);
+//			}
+//		}
+//	}
 
 	public void createEducation() {
 		Education education = sm.createEducation(nameTextField.getText(), startDatePicker.getValue(),
 				endDatePicker.getValue());
-		ObservableList<Student> students = checkComboBox.getCheckModel().getCheckedItems();
+//		ObservableList<Student> students = checkComboBox.getCheckModel().getCheckedItems();
 
-		for (Student student : students) {
-			if (student != null)
-				education.addStudentToEducation(student);
-		}
+//		for (Student student : students) {
+//			if (student != null)
+//				education.addStudentToEducation(student);
+//		}
 		sm.updateEducation(education);
 		updateTableViewToShowEducations();
-		addItemsToComboBox();
+//		addItemsToComboBox();
 	}
 
 	private void updateTableViewToShowEducations() {
@@ -185,9 +185,31 @@ public class EducationController implements Initializable {
 					private final Button btn = new Button("Courses");
 					{
 						btn.setOnAction((ActionEvent event) -> {
-							// TODO Gör så att det öppnas ett litet fönster som visar alla educations som
-							// denna kurs finns inom, gör så att man kan lägga till och ta bort.
-							System.out.println("Opening educations");
+							Parent root;
+							try {
+								FXMLLoader fxmlLoader = new FXMLLoader(
+										getClass().getResource("/gui/EducationCourse.fxml"));
+
+								root = fxmlLoader.load();
+								Stage stage = new Stage();
+								stage.setTitle("Courses");
+								stage.setScene(new Scene(root));
+
+								EducationCourseController controller = fxmlLoader
+										.<EducationCourseController>getController();
+								@SuppressWarnings("unchecked")
+								TablePosition<Education, Integer> pos = table.getSelectionModel().getSelectedCells()
+										.get(0);
+								int row = pos.getRow();
+								Education item = table.getItems().get(row);
+								TableColumn<Education, Integer> col = pos.getTableColumn();
+								int data = col.getCellObservableValue(item).getValue();
+								System.out.println(data);
+								controller.setIdOfEducation(data);
+								stage.show();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
 						});
 					}
 
@@ -219,13 +241,13 @@ public class EducationController implements Initializable {
 				removeMenuItem.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
-						Education education = sm.getEducationById(row.getItem().getId());
+						Education education = sm.getEducationByIdWithStudents(row.getItem().getId());
 						for (Student student : education.getStudents()) {
 							student.setEducation(null);
 						}
 						table.getItems().remove(row.getItem());
 						sm.deleteEducation(education);
-						addItemsToComboBox();
+//						addItemsToComboBox();
 
 					}
 				});

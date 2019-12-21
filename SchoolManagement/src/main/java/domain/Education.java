@@ -37,7 +37,7 @@ public class Education {
 	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "education")
 	private List<Student> students;
 
-	@ManyToMany(mappedBy = "educations")
+	@ManyToMany
 	private List<Course> courses;
 
 	public Education(String name, LocalDate startDate, LocalDate endDate) {

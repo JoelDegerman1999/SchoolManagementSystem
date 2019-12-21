@@ -7,8 +7,8 @@ import java.util.ResourceBundle;
 
 import org.controlsfx.control.CheckComboBox;
 
+import domain.Course;
 import domain.Education;
-import domain.Student;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,26 +25,23 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import service.SchoolManagement;
 
-public class EducationStudentController implements Initializable {
+public class EducationCourseController implements Initializable {
 
 	SchoolManagement sm;
 
 	private int idToUse = 1;
 
 	@FXML
-	private TableView<Student> table;
+	private TableView<Course> table;
 	@FXML
-	private TableColumn<Student, Integer> idColumn;
+	private TableColumn<Course, Integer> id;
 	@FXML
-	private TableColumn<Student, String> nameColumn;
-	@FXML
-	private TableColumn<Student, LocalDate> birthdateColumn;
-
+	private TableColumn<Course, String> subjectName;
 	@FXML
 	private TextField idTextField;
 
 	@FXML
-	private CheckComboBox<Student> checkComboBox;
+	private CheckComboBox<Course> checkComboBox;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -54,55 +51,68 @@ public class EducationStudentController implements Initializable {
 	}
 
 	private void setup() {
-		idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-		nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-		birthdateColumn.setCellValueFactory(new PropertyValueFactory<>("birthdate"));
+		id.setCellValueFactory(new PropertyValueFactory<>("id"));
+		subjectName.setCellValueFactory(new PropertyValueFactory<>("subject"));
+		
 		addItemsToComboBox();
 		deleteRowWithContextMenuDropdown();
 	}
 
-	public void updateTableViewToShowStudents() {
-		Education education = sm.getEducationByIdWithStudents(getIdOfEducation());
+	public void updateTableViewToShowCourses() {
+		Education education = sm.getEducationByIdWithCourses(getIdOfEducation());
 		table.getItems().clear();
-		List<Student> students = education.getStudents();
+		List<Course> courses = education.getCourses();
 
-		for (Student student : students) {
-			table.getItems().add(student);
+		for (Course course : courses) {
+			table.getItems().add(course);
 		}
 
 	}
 
 	private void addItemsToComboBox() {
 		checkComboBox.getItems().clear();
-		List<Student> students = sm.getAllStudents();
-		for (Student student : students) {
-			if (student.getEducation() == null) {
-				checkComboBox.getItems().add(student);
+		List<Course> courses = sm.getAllCourses();
+		for (Course course : courses) {
+			if (course != null && course.getEducations().size() <= 0) {
+				checkComboBox.getItems().add(course);
 			}
 		}
 	}
 
-	public void addStudentToEducationStudentGroup() {
-		Education education = sm.getEducationByIdWithStudents(getIdOfEducation());
-		ObservableList<Student> students = checkComboBox.getCheckModel().getCheckedItems();
 
-		for (Student student : students) {
-			if (student != null)
-				education.addStudentToEducation(student);
+	public void addCourseToEducationCourseGroup() {
+		Education education = sm.getEducationByIdWithCourses(getIdOfEducation());
+		List<Course> coursesList = sm.getAllCourses();
+		ObservableList<Course> courses = checkComboBox.getCheckModel().getCheckedItems();
+		System.out.println(courses);
+
+		System.out.println(coursesList);
+
+		for (Course course : courses) {
+			System.out.println(course.getId());
+			for (Course course2 : coursesList) {
+				if (course.getId() == course2.getId()) {
+
+					education.addCourseToEducation(course);
+				}
+
+			}
 		}
 
 		sm.updateEducation(education);
-		updateTableViewToShowStudents();
+
+		updateTableViewToShowCourses();
+
 		addItemsToComboBox();
 	}
 
 	private void deleteRowWithContextMenuDropdown() {
 
-		table.setRowFactory(new Callback<TableView<Student>, TableRow<Student>>() {
+		table.setRowFactory(new Callback<TableView<Course>, TableRow<Course>>() {
 
 			@Override
-			public TableRow<Student> call(TableView<Student> tableView) {
-				final TableRow<Student> row = new TableRow<>();
+			public TableRow<Course> call(TableView<Course> tableView) {
+				final TableRow<Course> row = new TableRow<>();
 				final ContextMenu contextMenu = new ContextMenu();
 				final MenuItem removeMenuItem = new MenuItem("Remove");
 				removeMenuItem.setOnAction(new EventHandler<ActionEvent>() {
@@ -110,11 +120,12 @@ public class EducationStudentController implements Initializable {
 					public void handle(ActionEvent event) {
 						table.getItems().remove(row.getItem());
 
-						Education e = sm.getEducationByIdWithStudents(row.getItem().getEducation().getId());
-						Student s = sm.getStudentById(row.getItem().getId());
+						System.out.println(id.getCellData(0));
+						Education e = sm.getEducationByIdWithCourses(id.getCellData(0));
+						Course c = sm.getCourseById(row.getItem().getId());
 
-						e.removeStudentFromEducation(s);
-						sm.updateStudent(s);
+						e.removeCourseFromEducation(c);
+						sm.updateCourse(c);
 						addItemsToComboBox();
 					}
 				});
