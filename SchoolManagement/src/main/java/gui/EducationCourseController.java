@@ -1,7 +1,6 @@
 package gui;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -9,6 +8,7 @@ import org.controlsfx.control.CheckComboBox;
 
 import domain.Course;
 import domain.Education;
+import domain.Student;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,8 +18,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
@@ -92,7 +94,6 @@ public class EducationCourseController implements Initializable {
 			System.out.println(course.getId());
 			for (Course course2 : coursesList) {
 				if (course.getId() == course2.getId()) {
-
 					education.addCourseToEducation(course);
 				}
 
@@ -118,14 +119,14 @@ public class EducationCourseController implements Initializable {
 				removeMenuItem.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
+
+						Course course = sm.getCourseById(row.getItem().getId());
+						System.out.println(course);
+						System.out.println(getIdOfEducation());
+						Education education = sm.getEducationByIdWithCourses(getIdOfEducation());
+						education.getCourses().remove(course);
+						sm.updateEducation(education);
 						table.getItems().remove(row.getItem());
-
-						System.out.println(id.getCellData(0));
-						Education e = sm.getEducationByIdWithCourses(id.getCellData(0));
-						Course c = sm.getCourseById(row.getItem().getId());
-
-						e.removeCourseFromEducation(c);
-						sm.updateCourse(c);
 						addItemsToComboBox();
 					}
 				});

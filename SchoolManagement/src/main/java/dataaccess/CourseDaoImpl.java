@@ -48,7 +48,7 @@ public class CourseDaoImpl implements CourseDao {
 	public Course getCourseById(int id) {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
-		Course course = em.find(Course.class, id);
+		Course course = em.createQuery("select c from Course as c left join fetch c.educations where c.id = :id", Course.class).setParameter("id", id).getSingleResult();
 		em.getTransaction().commit();
 		em.close();
 		return course;

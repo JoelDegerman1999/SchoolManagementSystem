@@ -97,8 +97,12 @@ public class EducationDaoImpl implements EducationDao {
 
 	@Override
 	public List<Education> getAllEducationsWithCourses() {
-		// TODO Auto-generated method stub
-		return null;
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		List<Education> edcuation = em.createQuery("select e from Education as e left join fetch e.courses", Education.class).getResultList();
+		em.getTransaction().commit();
+		em.close();
+		return edcuation;
 	}
 	
 	

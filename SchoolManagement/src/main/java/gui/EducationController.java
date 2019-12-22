@@ -75,35 +75,23 @@ public class EducationController implements Initializable {
 		name.setCellValueFactory(new PropertyValueFactory<>("name"));
 		startDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
 		endDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-//		addItemsToComboBox();
 		updateTableViewToShowEducations();
 		addButtonToColumnStudents();
 		addButtonToColumnCourse();
 		deleteRowWithContextMenuDropdown();
 	}
 
-//	private void addItemsToComboBox() {
-//		checkComboBox.getItems().clear();
-//		List<Student> students = sm.getAllStudents();
-//		for (Student student : students) {
-//			if (student.getEducation() == null) {
-//				checkComboBox.getItems().add(student);
-//			}
-//		}
-//	}
-
 	public void createEducation() {
 		Education education = sm.createEducation(nameTextField.getText(), startDatePicker.getValue(),
 				endDatePicker.getValue());
-//		ObservableList<Student> students = checkComboBox.getCheckModel().getCheckedItems();
 
-//		for (Student student : students) {
-//			if (student != null)
-//				education.addStudentToEducation(student);
-//		}
 		sm.updateEducation(education);
 		updateTableViewToShowEducations();
-//		addItemsToComboBox();
+		nameTextField.clear();
+		startDatePicker.getEditor().clear();
+		startDatePicker.setValue(null);
+		endDatePicker.getEditor().clear();
+		endDatePicker.setValue(null);
 	}
 
 	private void updateTableViewToShowEducations() {
@@ -247,7 +235,6 @@ public class EducationController implements Initializable {
 						}
 						table.getItems().remove(row.getItem());
 						sm.deleteEducation(education);
-//						addItemsToComboBox();
 
 					}
 				});

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import domain.Course;
+import domain.Education;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,6 +35,8 @@ public class CourseController implements Initializable {
 	private TableColumn<String, Course> subjectName;
 	@FXML
 	private TableColumn<Course, Void> educationButtonColumn;
+	@FXML
+	private TableColumn<Course, Void> teacherButtonColumn;
 
 	@FXML
 	private TextField textFieldName;
@@ -44,12 +47,17 @@ public class CourseController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		sm = new SchoolManagement();
 
+		setup();
+	}
+
+	private void setup() {
 		id.setCellValueFactory(new PropertyValueFactory<>("id"));
 		subjectName.setCellValueFactory(new PropertyValueFactory<>("subject"));
 
 		updateTableView();
 		deleteTableRow();
-		addButtonToTable();
+		addButtonToEducationColumn();
+		addButtonToTeacherColumn();
 	}
 
 	private void updateTableView() {
@@ -75,6 +83,12 @@ public class CourseController implements Initializable {
 				removeMenuItem.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
+						Course course = sm.getCourseById(row.getItem().getId());
+						List<Education> educations = sm.getAllEducationsWithCourses();
+						for (Education education: educations) {
+							education.removeCourseFromEducation(course);
+							sm.updateEducation(education);
+						}
 						sm.deleteCourse(row.getItem());
 						table.getItems().remove(row.getItem());
 
@@ -90,23 +104,22 @@ public class CourseController implements Initializable {
 		});
 	}
 
-	private void addButtonToTable() {
+	private void addButtonToEducationColumn() {
 
 		Callback<TableColumn<Course, Void>, TableCell<Course, Void>> cellFactory = new Callback<TableColumn<Course, Void>, TableCell<Course, Void>>() {
 			@Override
 			public TableCell<Course, Void> call(final TableColumn<Course, Void> param) {
 				final TableCell<Course, Void> cell = new TableCell<Course, Void>() {
 
-					private final Button btn = new Button("Educations");
+					private final Button btn = new Button("Education(s)");
 					{
-						btn.setOnAction((ActionEvent event) ->{
-							// TODO Gör så att det öppnas ett litet fönster som visar alla educations som denna kurs finns inom, gör så att man kan lägga till och ta bort.
+						btn.setOnAction((ActionEvent event) -> {
+							// TODO Gör så att det öppnas ett litet fönster som visar alla educations som
+							// denna kurs finns inom, gör så att man kan lägga till och ta bort.
 							System.out.println("Opening educations");
 						});
 					}
-					
-					
-					
+
 					@Override
 					public void updateItem(Void item, boolean empty) {
 						super.updateItem(item, empty);
@@ -123,7 +136,39 @@ public class CourseController implements Initializable {
 
 		educationButtonColumn.setCellFactory(cellFactory);
 
-
+	}
+	private void addButtonToTeacherColumn() {
+		
+		Callback<TableColumn<Course, Void>, TableCell<Course, Void>> cellFactory = new Callback<TableColumn<Course, Void>, TableCell<Course, Void>>() {
+			@Override
+			public TableCell<Course, Void> call(final TableColumn<Course, Void> param) {
+				final TableCell<Course, Void> cell = new TableCell<Course, Void>() {
+					
+					private final Button btn = new Button("Teacher(s)");
+					{
+						btn.setOnAction((ActionEvent event) -> {
+							// TODO Gör så att det öppnas ett litet fönster som visar alla educations som
+							// denna kurs finns inom, gör så att man kan lägga till och ta bort.
+							System.out.println("Opening educations");
+						});
+					}
+					
+					@Override
+					public void updateItem(Void item, boolean empty) {
+						super.updateItem(item, empty);
+						if (empty) {
+							setGraphic(null);
+						} else {
+							setGraphic(btn);
+						}
+					}
+				};
+				return cell;
+			}
+		};
+		
+		teacherButtonColumn.setCellFactory(cellFactory);
+		
 	}
 
 	public void createCourse() {

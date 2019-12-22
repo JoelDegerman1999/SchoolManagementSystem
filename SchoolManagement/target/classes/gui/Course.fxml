@@ -28,12 +28,12 @@
 		</Pane>
 		<AnchorPane layoutX="-8.0" layoutY="160.0" prefHeight="440.0" prefWidth="950.0">
 			<children>
-				<TableView fx:id="table" layoutX="14.0" layoutY="40.0" prefHeight="360.0">
+				<TableView fx:id="table" layoutX="14.0" layoutY="40.0" prefHeight="360.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="500.0">
 					<columns>
 						<TableColumn fx:id="id" prefWidth="75.0" resizable="false" text="ID" />
-						<TableColumn fx:id="subjectName" prefWidth="100.0" resizable="false" text="Subject" />
-						<TableColumn fx:id="educationButtonColumn" prefWidth="100.0" resizable="false" text="Educations" />
-						<TableColumn prefWidth="100.0" resizable="false" text="Teachers" />
+						<TableColumn fx:id="subjectName" prefWidth="120.0" resizable="false" text="Subject" />
+						<TableColumn fx:id="educationButtonColumn" prefWidth="120.0" resizable="false" text="Educations" />
+						<TableColumn fx:id="teacherButtonColumn" prefWidth="115.0" resizable="false" text="Teachers" />
 					</columns>
 				</TableView>
 				<VBox alignment="CENTER" layoutX="482.0" layoutY="40.0" prefHeight="360.0" prefWidth="295.0" spacing="15.0">
