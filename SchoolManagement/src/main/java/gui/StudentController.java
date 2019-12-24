@@ -27,7 +27,7 @@ import service.SchoolManagement;
 public class StudentController implements Initializable {
 
 	@FXML
-	TableView<Student> table;
+	private TableView<Student> table;
 
 	@FXML
 	private TableColumn<Integer, Student> id;
@@ -45,17 +45,20 @@ public class StudentController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		sm = new SchoolManagement();
+		setup();
+	}
 
+	private void setup() {
 		id.setCellValueFactory(new PropertyValueFactory<>("id"));
 		name.setCellValueFactory(new PropertyValueFactory<>("name"));
 		birthDate.setCellValueFactory(new PropertyValueFactory<>("birthdate"));
 
-		sm = new SchoolManagement();
-		updateTableView();
-		deleteTableRow();
+		updateTable();
+		deleteRowFromTable();
 	}
 
-	private void updateTableView() {
+	private void updateTable() {
 		table.getItems().clear();
 		ObservableList<Student> observableList = FXCollections.observableArrayList();
 
@@ -68,7 +71,7 @@ public class StudentController implements Initializable {
 		table.setItems(observableList);
 	}
 
-	private void deleteTableRow() {
+	private void deleteRowFromTable() {
 		table.setRowFactory(new Callback<TableView<Student>, TableRow<Student>>() {
 			@Override
 			public TableRow<Student> call(TableView<Student> tableView) {
@@ -99,7 +102,7 @@ public class StudentController implements Initializable {
 		sm.createStudent(textFieldName.getText(), date);
 		textFieldName.clear();
 		datePicker.getEditor().clear();
-		updateTableView();
+		updateTable();
 	}
 
 }

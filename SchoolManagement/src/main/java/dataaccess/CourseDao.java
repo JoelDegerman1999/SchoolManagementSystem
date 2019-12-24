@@ -15,5 +15,5 @@ public interface CourseDao {
 
 	public Course getCourseBySubjectName(String subjectName);
 	
-	public List<Course> getAllCourses();
+	public List<Course> getAllCoursesWithEducations();
 }

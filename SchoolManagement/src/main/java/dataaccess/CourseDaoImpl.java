@@ -66,10 +66,10 @@ public class CourseDaoImpl implements CourseDao {
 	}
 
 	@Override
-	public List<Course> getAllCourses() {
+	public List<Course> getAllCoursesWithEducations() {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
-		List<Course> courses = em.createQuery("select c from Course as c left join fetch c.educations", Course.class).getResultList();
+		List<Course> courses = em.createQuery("select distinct c from Course as c left join fetch c.educations", Course.class).getResultList();
 		em.getTransaction().commit();
 		em.close();
 		return courses;

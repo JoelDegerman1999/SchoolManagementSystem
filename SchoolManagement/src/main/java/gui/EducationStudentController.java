@@ -27,9 +27,9 @@ import service.SchoolManagement;
 
 public class EducationStudentController implements Initializable {
 
-	SchoolManagement sm;
+	private SchoolManagement sm;
 
-	private int idToUse = 1;
+	private int idToUse;
 
 	@FXML
 	private TableView<Student> table;

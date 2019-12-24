@@ -47,8 +47,8 @@ public class SchoolManagement {
 		return courseDao.delete(course);
 	}
 	
-	public List<Course> getAllCourses(){
-		return courseDao.getAllCourses();
+	public List<Course> getAllCoursesWithEducations(){
+		return courseDao.getAllCoursesWithEducations();
 	}
 
 	// Education

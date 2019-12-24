@@ -27,7 +27,7 @@ import service.SchoolManagement;
 
 public class CourseController implements Initializable {
 	@FXML
-	TableView<Course> table;
+	private TableView<Course> table;
 
 	@FXML
 	private TableColumn<Integer, Course> id;
@@ -46,7 +46,6 @@ public class CourseController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		sm = new SchoolManagement();
-
 		setup();
 	}
 
@@ -54,17 +53,17 @@ public class CourseController implements Initializable {
 		id.setCellValueFactory(new PropertyValueFactory<>("id"));
 		subjectName.setCellValueFactory(new PropertyValueFactory<>("subject"));
 
-		updateTableView();
+		updateTable();
 		deleteTableRow();
 		addButtonToEducationColumn();
 		addButtonToTeacherColumn();
 	}
 
-	private void updateTableView() {
+	private void updateTable() {
 		table.getItems().clear();
 		ObservableList<Course> observableList = FXCollections.observableArrayList();
 
-		List<Course> courses = sm.getAllCourses();
+		List<Course> courses = sm.getAllCoursesWithEducations();
 
 		for (Course course : courses) {
 			observableList.add(course);
@@ -173,6 +172,6 @@ public class CourseController implements Initializable {
 
 	public void createCourse() {
 		sm.createCourse(textFieldName.getText());
-		updateTableView();
+		updateTable();
 	}
 }

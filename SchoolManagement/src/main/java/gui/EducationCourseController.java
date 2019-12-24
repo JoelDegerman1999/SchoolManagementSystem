@@ -8,7 +8,6 @@ import org.controlsfx.control.CheckComboBox;
 
 import domain.Course;
 import domain.Education;
-import domain.Student;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,10 +17,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
@@ -55,7 +52,7 @@ public class EducationCourseController implements Initializable {
 	private void setup() {
 		id.setCellValueFactory(new PropertyValueFactory<>("id"));
 		subjectName.setCellValueFactory(new PropertyValueFactory<>("subject"));
-		
+
 		addItemsToComboBox();
 		deleteRowWithContextMenuDropdown();
 	}
@@ -73,22 +70,20 @@ public class EducationCourseController implements Initializable {
 
 	private void addItemsToComboBox() {
 		checkComboBox.getItems().clear();
-		List<Course> courses = sm.getAllCourses();
+		List<Course> courses = sm.getAllCoursesWithEducations();
+		System.out.println(courses);
 		for (Course course : courses) {
-			if (course != null && course.getEducations().size() <= 0) {
+			if (course != null) {
 				checkComboBox.getItems().add(course);
 			}
+
 		}
 	}
 
-
 	public void addCourseToEducationCourseGroup() {
 		Education education = sm.getEducationByIdWithCourses(getIdOfEducation());
-		List<Course> coursesList = sm.getAllCourses();
+		List<Course> coursesList = sm.getAllCoursesWithEducations();
 		ObservableList<Course> courses = checkComboBox.getCheckModel().getCheckedItems();
-		System.out.println(courses);
-
-		System.out.println(coursesList);
 
 		for (Course course : courses) {
 			System.out.println(course.getId());
