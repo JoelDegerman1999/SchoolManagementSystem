@@ -1,5 +1,8 @@
 package dataaccess;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -11,7 +14,7 @@ public class EducationDaoImpl implements EducationDao {
 	EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
 
 	@Override
-	public Education create(String name, String startDate, String educationLength) {
+	public Education create(String name, LocalDate startDate, LocalDate educationLength) {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		Education education = new Education(name, startDate, educationLength);
@@ -35,6 +38,7 @@ public class EducationDaoImpl implements EducationDao {
 	public Education delete(Education education) {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
+		education = em.merge(education);
 		em.remove(education);
 		em.getTransaction().commit();
 		em.close();
@@ -42,10 +46,20 @@ public class EducationDaoImpl implements EducationDao {
 	}
 
 	@Override
-	public Education getEducationById(int id) {
+	public Education getEducationByIdWithStudents(int id) {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
-		Education education = em.find(Education.class, id);
+		Education education = em.createQuery("select edu from Education as edu left join fetch edu.students where edu.id = :id", Education.class).setParameter("id", id).getSingleResult();
+		em.getTransaction().commit();
+		em.close();
+		return education;
+	}
+	
+	@Override
+	public Education getEducationByIdWithCourses(int id) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		Education education = em.createQuery("select edu from Education as edu left join fetch edu.courses where edu.id = :id", Education.class).setParameter("id", id).getSingleResult();
 		em.getTransaction().commit();
 		em.close();
 		return education;
@@ -60,5 +74,37 @@ public class EducationDaoImpl implements EducationDao {
 		em.close();
 		return edcuation;
 	}
+
+	@Override
+	public List<Education> getAllEducations() {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		List<Education> edcuation = em.createQuery("select e from Education as e", Education.class).getResultList();
+		em.getTransaction().commit();
+		em.close();
+		return edcuation;
+	}
+
+	@Override
+	public List<Education> getAllEducationsWithStudents() {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		List<Education> edcuation = em.createQuery("select e from Education as e left join fetch e.students", Education.class).getResultList();
+		em.getTransaction().commit();
+		em.close();
+		return edcuation;
+	}
+
+	@Override
+	public List<Education> getAllEducationsWithCourses() {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		List<Education> edcuation = em.createQuery("select e from Education as e left join fetch e.courses", Education.class).getResultList();
+		em.getTransaction().commit();
+		em.close();
+		return edcuation;
+	}
+	
+	
 
 }

@@ -1,5 +1,7 @@
 package dataaccess;
 
+import java.util.List;
+
 import domain.Course;
 
 public interface CourseDao {
@@ -12,4 +14,6 @@ public interface CourseDao {
 	public Course getCourseById(int id);
 
 	public Course getCourseBySubjectName(String subjectName);
+	
+	public List<Course> getAllCoursesWithEducations();
 }

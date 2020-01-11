@@ -1,12 +1,17 @@
 package domain;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-
+/**
+ * @author Joel
+ *
+ */
 @Entity
 public class Student {
 
@@ -16,19 +21,15 @@ public class Student {
 
 	private String name;
 
-	private String birthdate;
+	private LocalDate birthdate;
 
 	public Student() {
-	}
-
-	public void createCourse() {
-
 	}
 
 	@ManyToOne
 	private Education education;
 
-	public Student(String name, String birthdate) {
+	public Student(String name, LocalDate birthdate) {
 		this.name = name;
 		this.birthdate = birthdate;
 	}
@@ -41,11 +42,11 @@ public class Student {
 		this.name = name;
 	}
 
-	public String getBirthdate() {
-		return this.birthdate;
+	public LocalDate getBirthdate() {
+		return birthdate;
 	}
 
-	public void setBirthdate(String birthdate) {
+	public void setBirthdate(LocalDate birthdate) {
 		this.birthdate = birthdate;
 	}
 
@@ -56,5 +57,47 @@ public class Student {
 	public void setEducation(Education education) {
 		this.education = education;
 	}
+
+	public int getId() {
+		return id;
+	}
+
+	@Override
+	public String toString() {
+		return "[" + getId() + "]" + " " + getName();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Student other = (Student) obj;
+		if (id != other.id)
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
+
+
+	
+	
+	
 
 }

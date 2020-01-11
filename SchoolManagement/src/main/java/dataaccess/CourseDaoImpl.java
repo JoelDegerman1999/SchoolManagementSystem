@@ -1,5 +1,7 @@
 package dataaccess;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -35,6 +37,7 @@ public class CourseDaoImpl implements CourseDao {
 	public Course delete(Course course) {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
+		course = em.merge(course);
 		em.remove(course);
 		em.getTransaction().commit();
 		em.close();
@@ -45,7 +48,7 @@ public class CourseDaoImpl implements CourseDao {
 	public Course getCourseById(int id) {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
-		Course course = em.find(Course.class, id);
+		Course course = em.createQuery("select c from Course as c left join fetch c.educations where c.id = :id", Course.class).setParameter("id", id).getSingleResult();
 		em.getTransaction().commit();
 		em.close();
 		return course;
@@ -61,5 +64,17 @@ public class CourseDaoImpl implements CourseDao {
 		em.close();
 		return course;
 	}
+
+	@Override
+	public List<Course> getAllCoursesWithEducations() {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		List<Course> courses = em.createQuery("select distinct c from Course as c left join fetch c.educations", Course.class).getResultList();
+		em.getTransaction().commit();
+		em.close();
+		return courses;
+	}
+	
+	
 
 }

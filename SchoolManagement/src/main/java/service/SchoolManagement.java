@@ -1,5 +1,6 @@
 package service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import dataaccess.CourseDaoImpl;
@@ -45,14 +46,22 @@ public class SchoolManagement {
 	public Course deleteCourse(Course course) {
 		return courseDao.delete(course);
 	}
+	
+	public List<Course> getAllCoursesWithEducations(){
+		return courseDao.getAllCoursesWithEducations();
+	}
 
 	// Education
-	public Education createEducation(String name, String startDate, String educationLength) {
+	public Education createEducation(String name, LocalDate startDate, LocalDate educationLength) {
 		return educationDao.create(name, startDate, educationLength);
 	}
 
-	public Education getEducationById(int id) {
-		return educationDao.getEducationById(id);
+	public Education getEducationByIdWithStudents(int id) {
+		return educationDao.getEducationByIdWithStudents(id);
+	}
+	
+	public Education getEducationByIdWithCourses(int id) {
+		return educationDao.getEducationByIdWithCourses(id);
 	}
 
 	public Education getEducationByName(String name) {
@@ -66,9 +75,21 @@ public class SchoolManagement {
 	public Education deleteEducation(Education education) {
 		return educationDao.delete(education);
 	}
+	
+	public List<Education> getAllEducations(){
+		return educationDao.getAllEducations();
+	}
+	
+	public List<Education> getAllEducationsWithStudents(){
+		return educationDao.getAllEducationsWithStudents();
+	}
+	
+	public List<Education> getAllEducationsWithCourses(){
+		return educationDao.getAllEducationsWithCourses();
+	}
 
 	// Student
-	public Student createStudent(String name, String birthDate) {
+	public Student createStudent(String name, LocalDate birthDate) {
 		return studentDao.create(name, birthDate);
 	}
 
@@ -82,6 +103,10 @@ public class SchoolManagement {
 
 	public Student deleteStudent(Student student) {
 		return studentDao.delete(student);
+	}
+	
+	public List<Student> getAllStudents(){
+		return studentDao.getAllStudents();
 	}
 
 	// Teacher
@@ -100,8 +125,8 @@ public class SchoolManagement {
 	public Teacher deleteTeacher(Teacher teacher) {
 		return teacherDao.delete(teacher);
 	}
-	
-	public List<Teacher> getAllTeachers(){
+
+	public List<Teacher> getAllTeachers() {
 		return teacherDao.getAllTeachers();
 	}
 }

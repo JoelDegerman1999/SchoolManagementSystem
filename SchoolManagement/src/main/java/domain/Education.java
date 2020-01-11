@@ -3,9 +3,11 @@
  */
 package domain;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Basic;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,28 +25,50 @@ public class Education {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Basic
 	private String name;
 
-	@Basic
-	private String startDate;
+	private LocalDate startDate;
 
-	@Basic
-	private String educationLength;
+	private LocalDate endDate;
 
 	public Education() {
 	}
 
-	@OneToMany(mappedBy = "education")
+	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "education")
 	private List<Student> students;
 
-	@ManyToMany(mappedBy = "educations")
+	@ManyToMany
 	private List<Course> courses;
 
-	public Education(String name, String startDate, String educationLength) {
+	public Education(String name, LocalDate startDate, LocalDate endDate) {
 		this.name = name;
 		this.startDate = startDate;
-		this.educationLength = educationLength;
+		this.endDate = endDate;
+		students = new ArrayList<Student>();
+		courses = new ArrayList<Course>();
+	}
+
+	public void addStudentToEducation(Student student) {
+		this.students.add(student);
+		student.setEducation(this);
+	}
+
+	public void addCourseToEducation(Course course) {
+		this.courses.add(course);
+		course.getEducations().add(this);
+	}
+	
+	public void removeStudentFromEducation(Student student) {
+		this.students.remove(student);
+		student.setEducation(null);
+	}
+	
+	public void removeCourseFromEducation(Course course) {
+		getCourses().remove(course);
+	}
+	
+	public int getId() {
+		return id;
 	}
 
 	public String getName() {
@@ -55,20 +79,20 @@ public class Education {
 		this.name = name;
 	}
 
-	public String getStartDate() {
+	public LocalDate getStartDate() {
 		return this.startDate;
 	}
 
-	public void setStartDate(String startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
-	public String getEducationLength() {
-		return this.educationLength;
+	public LocalDate getEndDate() {
+		return endDate;
 	}
-
-	public void setEducationLength(String educationLength) {
-		this.educationLength = educationLength;
+	
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
 	}
 
 	public List<Student> getStudents() {
@@ -82,16 +106,6 @@ public class Education {
 		this.students = students;
 	}
 
-	public void addStudent(Student student) {
-		getStudents().add(student);
-		student.setEducation(this);
-	}
-
-	public void removeStudent(Student student) {
-		getStudents().remove(student);
-		student.setEducation(null);
-	}
-
 	public List<Course> getCourses() {
 		if (courses == null) {
 			courses = new ArrayList<>();
@@ -99,16 +113,30 @@ public class Education {
 		return this.courses;
 	}
 
-	public void setCourses(List<Course> courses) {
-		this.courses = courses;
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
 	}
 
-	public void addCourse(Course course) {
-		getCourses().add(course);
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Education other = (Education) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
-
-	public void removeCourse(Course course) {
-		getCourses().remove(course);
-	}
+	
+	
 
 }

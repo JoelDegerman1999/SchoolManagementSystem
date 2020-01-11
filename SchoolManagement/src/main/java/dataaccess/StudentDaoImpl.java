@@ -1,5 +1,8 @@
 package dataaccess;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -9,9 +12,9 @@ import domain.Student;
 public class StudentDaoImpl implements StudentDao {
 
 	EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
-	
+
 	@Override
-	public Student create(String name, String birthDate) {
+	public Student create(String name, LocalDate birthDate) {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		Student newTeacher = new Student(name, birthDate);
@@ -35,6 +38,7 @@ public class StudentDaoImpl implements StudentDao {
 	public Student delete(Student student) {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
+		student = em.merge(student);
 		em.remove(student);
 		em.getTransaction().commit();
 		em.close();
@@ -49,6 +53,18 @@ public class StudentDaoImpl implements StudentDao {
 		em.getTransaction().commit();
 		em.close();
 		return foundStudent;
+	}
+
+	@Override
+	public List<Student> getAllStudents() {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		List<Student> students = em
+				.createQuery("select s from Student as s", Student.class)
+				.getResultList();
+		em.getTransaction().commit();
+		em.close();
+		return students;
 	}
 
 }
