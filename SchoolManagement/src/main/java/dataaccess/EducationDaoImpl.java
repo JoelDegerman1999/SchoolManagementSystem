@@ -44,6 +44,16 @@ public class EducationDaoImpl implements EducationDao {
 		em.close();
 		return education;
 	}
+	
+	@Override
+	public Education getEducationById(int id) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		Education education = em.find(Education.class, id);
+		em.getTransaction().commit();
+		em.close();
+		return education;
+	}
 
 	@Override
 	public Education getEducationByIdWithStudents(int id) {
@@ -99,7 +109,7 @@ public class EducationDaoImpl implements EducationDao {
 	public List<Education> getAllEducationsWithCourses() {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
-		List<Education> edcuation = em.createQuery("select e from Education as e left join fetch e.courses", Education.class).getResultList();
+		List<Education> edcuation = em.createQuery("select distinct e from Education as e left join fetch e.courses", Education.class).getResultList();
 		em.getTransaction().commit();
 		em.close();
 		return edcuation;

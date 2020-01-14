@@ -67,5 +67,18 @@ public class MainController {
 			e.printStackTrace();
 		}
 	}
+	
+	public void openSchoolInformation(ActionEvent event) {
+		Parent root;
+		try {
+			root = FXMLLoader.load(getClass().getResource("/gui/SchoolInformation.fxml"));
+			Stage stage = new Stage();
+			stage.setTitle("School Information");
+			stage.setScene(new Scene(root));
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

@@ -23,4 +23,6 @@ public interface EducationDao {
 	public List<Education> getAllEducationsWithCourses();
 
 	public Education getEducationByIdWithCourses(int id);
+
+	public Education getEducationById(int id);
 }

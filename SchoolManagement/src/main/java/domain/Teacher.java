@@ -3,10 +3,10 @@
  */
 package domain;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,20 +25,20 @@ public class Teacher {
 
 	private String name;
 
-	private String dateHired;
+	private LocalDate dateHired;
 
 	public Teacher() {
 	}
 
-	@ManyToMany(cascade = CascadeType.PERSIST)
+	@ManyToMany
 	private List<Course> courses;
 
-    public void addToCourses(Course course) {
+	public void addToCourses(Course course) {
 		courses.add(course);
 		course.getTeachers().add(this);
-    }
+	}
 
-	public Teacher(String name, String dateHired) {
+	public Teacher(String name, LocalDate dateHired) {
 		this.name = name;
 		this.dateHired = dateHired;
 		courses = new ArrayList<Course>();
@@ -52,22 +52,26 @@ public class Teacher {
 		this.name = name;
 	}
 
-	public String getDateHired() {
-		return this.dateHired;
+	public LocalDate getDateHired() {
+		return dateHired;
 	}
 
-	public void setDateHired(String dateHired) {
+	public void setDateHired(LocalDate dateHired) {
 		this.dateHired = dateHired;
 	}
 
 	public List<Course> getCourses() {
 		return this.courses;
 	}
-	
+
+	public int getId() {
+		return id;
+	}
+
 	public String test() {
 		StringBuilder builder = new StringBuilder();
 		for (Course course : courses) {
-			builder.append(course.getSubject()+ ", ");
+			builder.append(course.getSubject() + ", ");
 		}
 		return builder.toString();
 	}
@@ -76,8 +80,5 @@ public class Teacher {
 	public String toString() {
 		return "Teacher " + getName() + " teaches : " + getCourses();
 	}
-	
-	
-
 
 }

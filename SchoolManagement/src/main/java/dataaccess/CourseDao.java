@@ -11,9 +11,13 @@ public interface CourseDao {
 
 	public Course delete(Course course);
 
-	public Course getCourseById(int id);
+	public Course getCourseByIdWithEducations(int id);
 
 	public Course getCourseBySubjectName(String subjectName);
 	
 	public List<Course> getAllCoursesWithEducations();
+
+	public List<Course> getAllCoursesWithTeachers();
+
+	Course getCourseById(int id);
 }

@@ -115,9 +115,7 @@ public class EducationCourseController implements Initializable {
 					@Override
 					public void handle(ActionEvent event) {
 
-						Course course = sm.getCourseById(row.getItem().getId());
-						System.out.println(course);
-						System.out.println(getIdOfEducation());
+						Course course = sm.getCourseByIdWithEducations(row.getItem().getId());
 						Education education = sm.getEducationByIdWithCourses(getIdOfEducation());
 						education.getCourses().remove(course);
 						sm.updateEducation(education);
@@ -127,8 +125,6 @@ public class EducationCourseController implements Initializable {
 				});
 				contextMenu.getItems().add(removeMenuItem);
 
-				// Set context menu on row, but use a binding to make it only show for non-empty
-				// rows:
 				row.contextMenuProperty()
 						.bind(Bindings.when(row.emptyProperty()).then((ContextMenu) null).otherwise(contextMenu));
 				return row;
