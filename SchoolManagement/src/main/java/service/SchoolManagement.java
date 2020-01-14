@@ -14,10 +14,10 @@ import domain.Teacher;
 
 public class SchoolManagement {
 
-	CourseDaoImpl courseDao;
-	EducationDaoImpl educationDao;
-	StudentDaoImpl studentDao;
-	TeacherDaoImpl teacherDao;
+	private CourseDaoImpl courseDao;
+	private EducationDaoImpl educationDao;
+	private StudentDaoImpl studentDao;
+	private TeacherDaoImpl teacherDao;
 
 	public SchoolManagement() {
 		courseDao = new CourseDaoImpl();
@@ -31,6 +31,9 @@ public class SchoolManagement {
 		return courseDao.create(subject);
 	}
 
+	public Course getCourseByIdWithEducations(int id) {
+		return courseDao.getCourseByIdWithEducations(id);
+	}
 	public Course getCourseById(int id) {
 		return courseDao.getCourseById(id);
 	}
@@ -46,9 +49,13 @@ public class SchoolManagement {
 	public Course deleteCourse(Course course) {
 		return courseDao.delete(course);
 	}
-	
-	public List<Course> getAllCoursesWithEducations(){
+
+	public List<Course> getAllCoursesWithEducations() {
 		return courseDao.getAllCoursesWithEducations();
+	}
+
+	public List<Course> getAllCoursesWithTeachers() {
+		return courseDao.getAllCoursesWithTeachers();
 	}
 
 	// Education
@@ -59,9 +66,13 @@ public class SchoolManagement {
 	public Education getEducationByIdWithStudents(int id) {
 		return educationDao.getEducationByIdWithStudents(id);
 	}
-	
+
 	public Education getEducationByIdWithCourses(int id) {
 		return educationDao.getEducationByIdWithCourses(id);
+	}
+
+	public Education getEducationById(int id) {
+		return educationDao.getEducationById(id);
 	}
 
 	public Education getEducationByName(String name) {
@@ -75,16 +86,16 @@ public class SchoolManagement {
 	public Education deleteEducation(Education education) {
 		return educationDao.delete(education);
 	}
-	
-	public List<Education> getAllEducations(){
+
+	public List<Education> getAllEducations() {
 		return educationDao.getAllEducations();
 	}
-	
-	public List<Education> getAllEducationsWithStudents(){
+
+	public List<Education> getAllEducationsWithStudents() {
 		return educationDao.getAllEducationsWithStudents();
 	}
-	
-	public List<Education> getAllEducationsWithCourses(){
+
+	public List<Education> getAllEducationsWithCourses() {
 		return educationDao.getAllEducationsWithCourses();
 	}
 
@@ -104,16 +115,19 @@ public class SchoolManagement {
 	public Student deleteStudent(Student student) {
 		return studentDao.delete(student);
 	}
-	
-	public List<Student> getAllStudents(){
+
+	public List<Student> getAllStudents() {
 		return studentDao.getAllStudents();
 	}
 
 	// Teacher
-	public Teacher createTeacher(String name, String dateHired) {
+	public Teacher createTeacher(String name, LocalDate dateHired) {
 		return teacherDao.create(name, dateHired);
 	}
 
+	public Teacher getTeacherByIdWithCourses(int id) {
+		return teacherDao.getTeacherByIdWithCourses(id);
+	}
 	public Teacher getTeacherById(int id) {
 		return teacherDao.getTeacherById(id);
 	}
@@ -126,6 +140,9 @@ public class SchoolManagement {
 		return teacherDao.delete(teacher);
 	}
 
+	public List<Teacher> getAllTeachersWithCourses() {
+		return teacherDao.getAllTeachersWithCourses();
+	}
 	public List<Teacher> getAllTeachers() {
 		return teacherDao.getAllTeachers();
 	}

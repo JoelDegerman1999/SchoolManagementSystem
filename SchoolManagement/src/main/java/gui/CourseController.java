@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -12,16 +13,21 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import service.SchoolManagement;
 
@@ -82,7 +88,7 @@ public class CourseController implements Initializable {
 				removeMenuItem.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
-						Course course = sm.getCourseById(row.getItem().getId());
+						Course course = sm.getCourseByIdWithEducations(row.getItem().getId());
 						List<Education> educations = sm.getAllEducationsWithCourses();
 						for (Education education: educations) {
 							education.removeCourseFromEducation(course);
@@ -113,9 +119,31 @@ public class CourseController implements Initializable {
 					private final Button btn = new Button("Education(s)");
 					{
 						btn.setOnAction((ActionEvent event) -> {
-							// TODO Gör så att det öppnas ett litet fönster som visar alla educations som
-							// denna kurs finns inom, gör så att man kan lägga till och ta bort.
-							System.out.println("Opening educations");
+							Parent root;
+							try {
+								FXMLLoader fxmlLoader = new FXMLLoader(
+										getClass().getResource("/gui/CourseEducation.fxml"));
+
+								root = fxmlLoader.load();
+								Stage stage = new Stage();
+								stage.setTitle("Educations");
+								stage.setScene(new Scene(root));
+
+								CourseEducationController controller = fxmlLoader
+										.<CourseEducationController>getController();
+								@SuppressWarnings("unchecked")
+								TablePosition<Course, Integer> pos = table.getSelectionModel().getSelectedCells()
+										.get(0);
+								int row = pos.getRow();
+								Course item = table.getItems().get(row);
+								TableColumn<Course, Integer> col = pos.getTableColumn();
+								int data = col.getCellObservableValue(item).getValue();
+								System.out.println(data);
+								controller.setIdOfCourse(data);
+								stage.show();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
 						});
 					}
 
@@ -172,6 +200,7 @@ public class CourseController implements Initializable {
 
 	public void createCourse() {
 		sm.createCourse(textFieldName.getText());
+		textFieldName.clear();
 		updateTable();
 	}
 }

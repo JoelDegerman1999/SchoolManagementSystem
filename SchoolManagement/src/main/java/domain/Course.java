@@ -35,7 +35,7 @@ public class Course {
 	public List<Education> getEducations() {
 		return educations;
 	}
-	
+
 	public String getSubject() {
 		return this.subject;
 	}
@@ -47,22 +47,22 @@ public class Course {
 	public List<Teacher> getTeachers() {
 		return this.teachers;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
 
 	public String test() {
 		StringBuilder builder = new StringBuilder();
-		for (Teacher teacher: teachers) {
-			builder.append(teacher.getName()+ ", ");
+		for (Teacher teacher : teachers) {
+			builder.append(teacher.getName() + ", ");
 		}
 		return builder.toString();
 	}
 
 	@Override
 	public String toString() {
-		return "Course : " + getSubject();
+		return "Course : " + getSubject() + " id : " + getId();
 	}
 
 	@Override
@@ -70,7 +70,6 @@ public class Course {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + id;
-		result = prime * result + ((subject == null) ? 0 : subject.hashCode());
 		return result;
 	}
 
@@ -85,16 +84,7 @@ public class Course {
 		Course other = (Course) obj;
 		if (id != other.id)
 			return false;
-		if (subject == null) {
-			if (other.subject != null)
-				return false;
-		} else if (!subject.equals(other.subject))
-			return false;
 		return true;
 	}
-
-	
-	
-	
 
 }

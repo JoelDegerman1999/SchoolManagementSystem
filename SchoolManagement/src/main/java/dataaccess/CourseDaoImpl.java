@@ -45,10 +45,19 @@ public class CourseDaoImpl implements CourseDao {
 	}
 
 	@Override
-	public Course getCourseById(int id) {
+	public Course getCourseByIdWithEducations(int id) {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		Course course = em.createQuery("select c from Course as c left join fetch c.educations where c.id = :id", Course.class).setParameter("id", id).getSingleResult();
+		em.getTransaction().commit();
+		em.close();
+		return course;
+	}
+	@Override
+	public Course getCourseById(int id) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		Course course = em.createQuery("select c from Course as c  where c.id = :id", Course.class).setParameter("id", id).getSingleResult();
 		em.getTransaction().commit();
 		em.close();
 		return course;
@@ -70,6 +79,15 @@ public class CourseDaoImpl implements CourseDao {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		List<Course> courses = em.createQuery("select distinct c from Course as c left join fetch c.educations", Course.class).getResultList();
+		em.getTransaction().commit();
+		em.close();
+		return courses;
+	}
+	@Override
+	public List<Course> getAllCoursesWithTeachers() {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		List<Course> courses = em.createQuery("select distinct c from Course as c left join fetch c.teachers", Course.class).getResultList();
 		em.getTransaction().commit();
 		em.close();
 		return courses;

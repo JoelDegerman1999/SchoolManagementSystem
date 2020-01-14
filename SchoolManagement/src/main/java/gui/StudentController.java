@@ -81,8 +81,15 @@ public class StudentController implements Initializable {
 				removeMenuItem.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
-						sm.deleteStudent(row.getItem());
-						table.getItems().remove(row.getItem());
+						System.out.println(row.getItem());
+						Student student = row.getItem();
+						System.out.println(student.getEducation());
+						if (student.getEducation() == null) {
+							sm.deleteStudent(student);
+							table.getItems().remove(row.getItem());
+						}else {
+							System.out.println("Kan inte ta bort student då den är kopplad till en utbidling");
+						}
 
 					}
 				});
@@ -96,12 +103,12 @@ public class StudentController implements Initializable {
 		});
 	}
 
-
 	public void createStudent() {
 		LocalDate date = datePicker.getValue();
 		sm.createStudent(textFieldName.getText(), date);
 		textFieldName.clear();
 		datePicker.getEditor().clear();
+		datePicker.setValue(null);
 		updateTable();
 	}
 
