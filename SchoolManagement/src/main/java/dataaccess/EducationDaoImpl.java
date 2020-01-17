@@ -59,8 +59,9 @@ public class EducationDaoImpl implements EducationDao {
 	public Education getEducationByIdWithStudents(int id) {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
-		Education education = em.createQuery("select edu from Education as edu left join fetch edu.students where edu.id = :id", Education.class).setParameter("id", id).getSingleResult();
-		em.getTransaction().commit();
+		Education education = em.createQuery("select edu from Education as edu left join fetch edu.students where edu.id = :id", 
+				Education.class).setParameter("id", id).getSingleResult();
+		em.getTransaction().commit(); 
 		em.close();
 		return education;
 	}
