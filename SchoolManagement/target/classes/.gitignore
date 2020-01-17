@@ -1,0 +1,8 @@
+/META-INF/
+/client/
+/dataaccess/
+/domain/
+/gui/
+/log4j.properties
+/service/
+/test/
