@@ -136,7 +136,10 @@ public class Education {
 			return false;
 		return true;
 	}
-	
+	public String toString() {
+		return id + "  " + name + "  " + startDate + "  " + endDate;
+		
+	}
 	
 
 }
