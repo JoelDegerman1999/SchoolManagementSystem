@@ -23,6 +23,8 @@ public class TeacherDaoImpl implements TeacherDao {
 		em.close();
 		return newTeacher;
 	}
+	
+	
 
 	@Override
 	public Teacher update(Teacher teacher) {
