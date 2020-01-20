@@ -71,6 +71,7 @@ public class EducationCourseController implements Initializable {
 	private void addItemsToComboBox() {
 		checkComboBox.getItems().clear();
 		List<Course> courses = sm.getAllCoursesWithEducations();
+		Education education = sm.getEducationByIdWithCourses(getIdOfEducation());
 		System.out.println(courses);
 		for (Course course : courses) {
 			if (course != null) {

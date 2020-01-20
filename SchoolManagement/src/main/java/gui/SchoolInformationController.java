@@ -19,25 +19,31 @@ public class SchoolInformationController implements Initializable{
 	@FXML
 	private Text totalStudentText;
 	@FXML
+	private Text averageAgeOfStudentText;
+	@FXML
 	private Text totalTeacherText;
 	@FXML
 	private Text totalEducationText;
 	@FXML
 	private Text total;
 	
-	private EntityManagerFactory emf;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		sm = new SchoolManagement();	
-		emf = Persistence.createEntityManagerFactory("PU");
 		countStudents();
+		countTeachers();
+		averageAgeOfStudent();
 	}
 	
 	private void countStudents() {
-		EntityManager em = emf.createEntityManager();
-		Long amount = em.createQuery("select COUNT(s) from Student as s left join fetch s.educations", Long.class).getSingleResult();
-		totalStudentText.setText(String.valueOf(amount));
+		totalStudentText.setText(String.valueOf(sm.getTotalAmmountOfStudents()));
+	}
+	private void countTeachers() {
+		totalTeacherText.setText(String.valueOf(sm.getTotalAmmountOfTeachers()));
+	}
+	private void averageAgeOfStudent() {
+		averageAgeOfStudentText.setText(String.valueOf(sm.averageAgeOfAllStudents()));
 	}
 	
 }

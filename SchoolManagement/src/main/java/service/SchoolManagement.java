@@ -3,9 +3,15 @@ package service;
 import java.time.LocalDate;
 import java.util.List;
 
+import dataaccess.CourseDao;
 import dataaccess.CourseDaoImpl;
+import dataaccess.EducationDao;
 import dataaccess.EducationDaoImpl;
+import dataaccess.StatisticsDao;
+import dataaccess.StatisticsDaoImpl;
+import dataaccess.StudentDao;
 import dataaccess.StudentDaoImpl;
+import dataaccess.TeacherDao;
 import dataaccess.TeacherDaoImpl;
 import domain.Course;
 import domain.Education;
@@ -14,16 +20,32 @@ import domain.Teacher;
 
 public class SchoolManagement {
 
-	private CourseDaoImpl courseDao;
-	private EducationDaoImpl educationDao;
-	private StudentDaoImpl studentDao;
-	private TeacherDaoImpl teacherDao;
+	private CourseDao courseDao;
+	private EducationDao educationDao;
+	private StudentDao studentDao;
+	private TeacherDao teacherDao;
+	private StatisticsDao statisticsDao;
 
 	public SchoolManagement() {
 		courseDao = new CourseDaoImpl();
 		educationDao = new EducationDaoImpl();
 		studentDao = new StudentDaoImpl();
 		teacherDao = new TeacherDaoImpl();
+		statisticsDao = new StatisticsDaoImpl();
+	}
+
+	// Statistcs
+	
+	public long getTotalAmmountOfStudents() {
+		return statisticsDao.numberOfStudents();
+	}
+
+	public long getTotalAmmountOfTeachers() {
+		return statisticsDao.numberOfTeachers();
+	}
+
+	public double averageAgeOfAllStudents() {
+		return statisticsDao.averageAgeOfStudents();
 	}
 
 	// Courses
@@ -34,6 +56,7 @@ public class SchoolManagement {
 	public Course getCourseByIdWithEducations(int id) {
 		return courseDao.getCourseByIdWithEducations(id);
 	}
+
 	public Course getCourseById(int id) {
 		return courseDao.getCourseById(id);
 	}
@@ -128,6 +151,7 @@ public class SchoolManagement {
 	public Teacher getTeacherByIdWithCourses(int id) {
 		return teacherDao.getTeacherByIdWithCourses(id);
 	}
+
 	public Teacher getTeacherById(int id) {
 		return teacherDao.getTeacherById(id);
 	}
@@ -143,6 +167,7 @@ public class SchoolManagement {
 	public List<Teacher> getAllTeachersWithCourses() {
 		return teacherDao.getAllTeachersWithCourses();
 	}
+
 	public List<Teacher> getAllTeachers() {
 		return teacherDao.getAllTeachers();
 	}
