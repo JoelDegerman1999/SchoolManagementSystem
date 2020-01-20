@@ -83,17 +83,24 @@ public class StudentController implements Initializable {
 					public void handle(ActionEvent event) {
 						System.out.println(row.getItem());
 						Student student = row.getItem();
-						System.out.println(student.getEducation());
-						if (student.getEducation() == null) {
-							sm.deleteStudent(student);
-							table.getItems().remove(row.getItem());
-						}else {
-							System.out.println("Kan inte ta bort student då den är kopplad till en utbidling");
-						}
+						student.setEducation(null);
+						sm.deleteStudent(student);
+						table.getItems().remove(row.getItem());
 
 					}
 				});
+				final MenuItem updateMenuItem = new MenuItem("update");
+				updateMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						Student student = row.getItem();
+						student.setName("Charlotte");
+						sm.updateStudent(student);
+						updateTable();
+					}
+				});
 				contextMenu.getItems().add(removeMenuItem);
+				contextMenu.getItems().add(updateMenuItem);
 				// Set context menu on row, but use a binding to make it only show for non-empty
 				// rows:
 				row.contextMenuProperty()

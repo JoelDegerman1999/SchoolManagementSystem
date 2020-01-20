@@ -53,7 +53,6 @@ public class TeacherCourseController implements Initializable {
 		id.setCellValueFactory(new PropertyValueFactory<>("id"));
 		subjectName.setCellValueFactory(new PropertyValueFactory<>("subject"));
 
-		updateAndAddItemsToComboBox();
 		deleteRowWithContextMenuDropdown();
 	}
 
@@ -71,11 +70,16 @@ public class TeacherCourseController implements Initializable {
 	private void updateAndAddItemsToComboBox() {
 		checkComboBox.getItems().clear();
 		List<Course> courses = sm.getAllCoursesWithTeachers();
+		Teacher teacher = sm.getTeacherById(getIdOfTeacher());
+		List<Course> teacherCourses = teacher.getCourses();
 		for (Course course : courses) {
 			if (course != null) {
 				checkComboBox.getItems().add(course);
 			}
-
+		}
+		
+		for (Course course : teacherCourses) {
+			checkComboBox.getItems().remove(course);
 		}
 	}
 
@@ -130,7 +134,7 @@ public class TeacherCourseController implements Initializable {
 		});
 	}
 
-	public void setIdOfEducation(int idToUse) {
+	public void setIdOfTeacher(int idToUse) {
 		this.idToUse = idToUse;
 	}
 

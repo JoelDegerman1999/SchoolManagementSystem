@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 import domain.Education;
 
@@ -66,7 +65,6 @@ public class EducationDaoImpl implements EducationDao {
 		Education education = em.createQuery("select edu from Education as edu left join fetch edu.students where edu.id = :id", 
 				Education.class).setParameter("id", id).getSingleResult();
 		em.getTransaction().commit();
-		em.getTransaction().commit(); 
 		em.close();
 		return education;
 	}

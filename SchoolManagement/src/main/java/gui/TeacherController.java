@@ -138,7 +138,7 @@ public class TeacherController implements Initializable {
 								TableColumn<Teacher, Integer> col = pos.getTableColumn();
 								int data = col.getCellObservableValue(item).getValue();
 								System.out.println(data);
-								controller.setIdOfEducation(data);
+								controller.setIdOfTeacher(data);
 								stage.show();
 							} catch (IOException e) {
 								e.printStackTrace();

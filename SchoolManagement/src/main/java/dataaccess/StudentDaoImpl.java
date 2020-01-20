@@ -19,13 +19,19 @@ public class StudentDaoImpl implements StudentDao {
 
 	@Override
 	public Student create(String name, LocalDate birthDate) {
-		EntityManager em = emf.createEntityManager();
-		em.getTransaction().begin();
-		Student newTeacher = new Student(name, birthDate);
-		em.persist(newTeacher);
-		em.getTransaction().commit();
-		em.close();
-		return newTeacher;
+		try {
+			EntityManager em = emf.createEntityManager();
+			em.getTransaction().begin();
+			Student newTeacher = new Student(name, birthDate);
+			em.persist(newTeacher);
+			em.getTransaction().commit();
+			em.close();
+			return newTeacher;
+			
+		} catch (Exception e) {
+			System.out.println("Error while creating the student");
+		}
+		return null;
 	}
 
 	@Override

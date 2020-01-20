@@ -51,8 +51,6 @@ public class EducationStudentController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		sm = new SchoolManagement();
 		setup();
-
-		updateTableViewToShowStudents();
 	}
 
 	private void setup() {

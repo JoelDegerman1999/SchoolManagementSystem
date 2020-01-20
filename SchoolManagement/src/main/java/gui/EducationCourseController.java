@@ -28,7 +28,7 @@ public class EducationCourseController implements Initializable {
 
 	SchoolManagement sm;
 
-	private int idToUse = 1;
+	private int idToUse;
 
 	@FXML
 	private TableView<Course> table;
@@ -53,7 +53,7 @@ public class EducationCourseController implements Initializable {
 		id.setCellValueFactory(new PropertyValueFactory<>("id"));
 		subjectName.setCellValueFactory(new PropertyValueFactory<>("subject"));
 
-		addItemsToComboBox();
+		// addItemsToComboBox();
 		deleteRowWithContextMenuDropdown();
 	}
 
@@ -66,19 +66,29 @@ public class EducationCourseController implements Initializable {
 			table.getItems().add(course);
 		}
 
+		addItemsToComboBox();
 	}
 
 	private void addItemsToComboBox() {
 		checkComboBox.getItems().clear();
 		List<Course> courses = sm.getAllCoursesWithEducations();
+
 		Education education = sm.getEducationByIdWithCourses(getIdOfEducation());
-		System.out.println(courses);
+
+		List<Course> educationCourses = education.getCourses();
+
 		for (Course course : courses) {
 			if (course != null) {
 				checkComboBox.getItems().add(course);
 			}
 
 		}
+		
+		for (Course course : educationCourses) {
+			checkComboBox.getItems().remove(course);
+		}
+
+
 	}
 
 	public void addCourseToEducationCourseGroup() {
