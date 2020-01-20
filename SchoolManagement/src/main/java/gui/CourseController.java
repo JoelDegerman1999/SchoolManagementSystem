@@ -176,7 +176,7 @@ public class CourseController implements Initializable {
 						btn.setOnAction((ActionEvent event) -> {
 							// TODO Gör så att det öppnas ett litet fönster som visar alla educations som
 							// denna kurs finns inom, gör så att man kan lägga till och ta bort.
-							System.out.println("Opening educations");
+							System.out.println("Opening teachers");
 						});
 					}
 					

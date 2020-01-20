@@ -6,57 +6,73 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 public class StatisticsDaoImpl implements StatisticsDao {
 
-	EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
+	EntityManagerFactory emf;
+
+	public StatisticsDaoImpl(EntityManagerFactory emf) {
+		this.emf = emf;
+	}
 
 	@Override
 	public double averageAgeOfStudents() {
-		double totalAge = 0l;
-		double instancesToDivideBy = 0l;
-		double averageAge = 0;
+		try {
+			double totalAge = 0l;
+			double instancesToDivideBy = 0l;
+			double averageAge = 0;
 
-		EntityManager em = emf.createEntityManager();
-		em.getTransaction().begin();
-		List<LocalDate> allAges = em.createQuery("select s.birthdate from Student as s", LocalDate.class)
-				.getResultList();
-		for (LocalDate thisAge : allAges) {
-			if (thisAge != null) {
-				totalAge += ChronoUnit.YEARS.between(thisAge, LocalDate.now());
-				instancesToDivideBy++;
+			EntityManager em = emf.createEntityManager();
+			em.getTransaction().begin();
+			List<LocalDate> allAges = em.createQuery("select s.birthdate from Student as s", LocalDate.class)
+					.getResultList();
+			System.out.println(allAges);
+			for (LocalDate thisAge : allAges) {
+				if (thisAge != null) {
+					totalAge += ChronoUnit.YEARS.between(thisAge, LocalDate.now());
+					instancesToDivideBy++;
+				}
 			}
-		}
-		averageAge = totalAge / instancesToDivideBy;
+			averageAge = totalAge / instancesToDivideBy;
 
-		em.getTransaction().commit();
-		em.close();
-		return averageAge;
+			em.getTransaction().commit();
+			em.close();
+			return averageAge;
+
+		} catch (Exception e) {
+			System.out.println("Error while getting average age of students");
+			return 0;
+		}
 	}
 
 	@Override
 	public int numberOfStudents() {
-		EntityManager em = emf.createEntityManager();
-		em.getTransaction().begin();
-		long numberOfStudents = em.createQuery("select Count(s) from Student as s", Long.class).getSingleResult();
-		em.getTransaction().commit();
-		em.close();
-		return (int) numberOfStudents;
+		try {
+			EntityManager em = emf.createEntityManager();
+			em.getTransaction().begin();
+			long numberOfStudents = em.createQuery("select Count(s) from Student as s", Long.class).getSingleResult();
+			em.getTransaction().commit();
+			em.close();
+			return (int) numberOfStudents;
+		} catch (Exception e) {
+			System.out.println("Error while getting number of students");
+			return 0;
+		}
 	}
 
 	@Override
 	public int numberOfTeachers() {
-		EntityManager em = emf.createEntityManager();
-		em.getTransaction().begin();
-		long numberOfStudents = em.createQuery("select Count(t) from Teacher as t", Long.class).getSingleResult();
-		em.getTransaction().commit();
-		em.close();
-		return (int) numberOfStudents;
-	}
-
-	public StatisticsDaoImpl(EntityManagerFactory emf) {
-		this.emf = emf;
+		try {
+			EntityManager em = emf.createEntityManager();
+			em.getTransaction().begin();
+			long numberOfTeachers = em.createQuery("select Count(t) from Teacher as t", Long.class).getSingleResult();
+			em.getTransaction().commit();
+			em.close();
+			return (int) numberOfTeachers;
+		} catch (Exception e) {
+			System.out.println("Error while getting number of teachers");
+			return 0;
+		}
 	}
 
 	@Override

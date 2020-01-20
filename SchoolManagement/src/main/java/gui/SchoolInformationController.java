@@ -20,6 +20,8 @@ public class SchoolInformationController implements Initializable{
 	@FXML
 	private Text totalTeacherText;
 	@FXML
+	private Text totalCoursesText;
+	@FXML
 	private Text totalEducationText;
 	@FXML
 	private Text total;
@@ -30,6 +32,8 @@ public class SchoolInformationController implements Initializable{
 		sm = new SchoolManagement();	
 		countStudents();
 		countTeachers();
+		countCourses();
+		countEducations();
 		averageAgeOfStudent();
 	}
 	
@@ -38,6 +42,12 @@ public class SchoolInformationController implements Initializable{
 	}
 	private void countTeachers() {
 		totalTeacherText.setText(String.valueOf(sm.getTotalAmmountOfTeachers()));
+	}
+	private void countEducations() {
+		totalEducationText.setText(String.valueOf(sm.getTotalAmmountOfEducations()));
+	}
+	private void countCourses() {
+		totalCoursesText.setText(String.valueOf(sm.getTotalAmmountOfCourses()));
 	}
 	private void averageAgeOfStudent() {
 		DecimalFormat df = new DecimalFormat("#.##");

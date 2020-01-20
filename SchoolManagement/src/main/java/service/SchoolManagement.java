@@ -30,7 +30,7 @@ public class SchoolManagement {
 	private StatisticsDao statisticsDao;
 
 	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
-	
+
 	public SchoolManagement() {
 		courseDao = new CourseDaoImpl(emf);
 		educationDao = new EducationDaoImpl(emf);
@@ -40,13 +40,21 @@ public class SchoolManagement {
 	}
 
 	// Statistcs
-	
+
 	public long getTotalAmmountOfStudents() {
 		return statisticsDao.numberOfStudents();
 	}
 
 	public long getTotalAmmountOfTeachers() {
 		return statisticsDao.numberOfTeachers();
+	}
+
+	public long getTotalAmmountOfEducations() {
+		return statisticsDao.numberOfEducations();
+	}
+
+	public long getTotalAmmountOfCourses() {
+		return statisticsDao.numberOfCourses();
 	}
 
 	public double averageAgeOfAllStudents() {
