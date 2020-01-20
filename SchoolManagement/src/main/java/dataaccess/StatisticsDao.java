@@ -7,5 +7,9 @@ public interface StatisticsDao {
 	int numberOfStudents();
 
 	int numberOfTeachers();
+	
+	int numberOfEducations();
+	
+	int numberOfCourses();
 
 }

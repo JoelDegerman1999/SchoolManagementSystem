@@ -56,4 +56,29 @@ public class StatisticsDaoImpl implements StatisticsDao {
 		return (int) numberOfStudents;
 	}
 
+	public StatisticsDaoImpl(EntityManagerFactory emf) {
+		this.emf = emf;
+	}
+
+	@Override
+	public int numberOfEducations() {
+
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		long numberOfEducations = em.createQuery("select Count(e) from Education as e", Long.class).getSingleResult();
+		em.getTransaction().commit();
+		em.close();
+		return (int) numberOfEducations;
+	}
+
+	@Override
+	public int numberOfCourses() {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		long numberOfCourses = em.createQuery("select Count(c) from Course as c", Long.class).getSingleResult();
+		em.getTransaction().commit();
+		em.close();
+		return (int) numberOfCourses;
+	}
+
 }

@@ -11,7 +11,11 @@ import domain.Education;
 
 public class EducationDaoImpl implements EducationDao {
 
-	EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
+	EntityManagerFactory emf;
+
+	public EducationDaoImpl(EntityManagerFactory emf) {
+		this.emf = emf;
+		}
 
 	@Override
 	public Education create(String name, LocalDate startDate, LocalDate educationLength) {
@@ -62,6 +66,7 @@ public class EducationDaoImpl implements EducationDao {
 		Education education = em.createQuery("select edu from Education as edu left join fetch edu.students where edu.id = :id", 
 				Education.class).setParameter("id", id).getSingleResult();
 		em.getTransaction().commit();
+		em.getTransaction().commit(); 
 		em.close();
 		return education;
 	}

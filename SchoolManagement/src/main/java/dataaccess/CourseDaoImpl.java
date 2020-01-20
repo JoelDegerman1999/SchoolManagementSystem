@@ -10,7 +10,11 @@ import domain.Course;
 
 public class CourseDaoImpl implements CourseDao {
 
-	EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
+	EntityManagerFactory emf;
+
+	public CourseDaoImpl(EntityManagerFactory emf) {
+		this.emf = emf;	
+		}
 
 	@Override
 	public Course create(String subject) {

@@ -11,7 +11,11 @@ import domain.Student;
 
 public class StudentDaoImpl implements StudentDao {
 
-	EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
+	EntityManagerFactory emf;
+
+	public StudentDaoImpl(EntityManagerFactory emf) {
+		this.emf = emf;
+		}
 
 	@Override
 	public Student create(String name, LocalDate birthDate) {

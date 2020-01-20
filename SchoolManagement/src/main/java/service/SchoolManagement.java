@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 import dataaccess.CourseDao;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 import dataaccess.CourseDaoImpl;
 import dataaccess.EducationDao;
 import dataaccess.EducationDaoImpl;
@@ -26,12 +29,14 @@ public class SchoolManagement {
 	private TeacherDao teacherDao;
 	private StatisticsDao statisticsDao;
 
+	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
+	
 	public SchoolManagement() {
-		courseDao = new CourseDaoImpl();
-		educationDao = new EducationDaoImpl();
-		studentDao = new StudentDaoImpl();
-		teacherDao = new TeacherDaoImpl();
-		statisticsDao = new StatisticsDaoImpl();
+		courseDao = new CourseDaoImpl(emf);
+		educationDao = new EducationDaoImpl(emf);
+		studentDao = new StudentDaoImpl(emf);
+		teacherDao = new TeacherDaoImpl(emf);
+		statisticsDao = new StatisticsDaoImpl(emf);
 	}
 
 	// Statistcs
