@@ -3,6 +3,9 @@ package service;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 import dataaccess.CourseDaoImpl;
 import dataaccess.EducationDaoImpl;
 import dataaccess.StudentDaoImpl;
@@ -19,11 +22,13 @@ public class SchoolManagement {
 	private StudentDaoImpl studentDao;
 	private TeacherDaoImpl teacherDao;
 
+	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
+	
 	public SchoolManagement() {
-		courseDao = new CourseDaoImpl();
-		educationDao = new EducationDaoImpl();
-		studentDao = new StudentDaoImpl();
-		teacherDao = new TeacherDaoImpl();
+		courseDao = new CourseDaoImpl(emf);
+		educationDao = new EducationDaoImpl(emf);
+		studentDao = new StudentDaoImpl(emf);
+		teacherDao = new TeacherDaoImpl(emf);
 	}
 
 	// Courses

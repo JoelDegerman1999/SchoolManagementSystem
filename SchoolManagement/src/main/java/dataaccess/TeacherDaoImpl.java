@@ -11,7 +11,13 @@ import domain.Teacher;
 
 public class TeacherDaoImpl implements TeacherDao {
 
-	EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
+	EntityManagerFactory emf;
+
+	public TeacherDaoImpl(EntityManagerFactory emf) {
+		this.emf = emf;
+		}
+
+
 
 	@Override
 	public Teacher create(String name, LocalDate dateHired) {

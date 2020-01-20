@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.controlsfx.control.CheckComboBox;
+import org.hibernate.cache.spi.UpdateTimestampsCache;
 
 import domain.Education;
 import domain.Student;
@@ -51,6 +52,7 @@ public class EducationStudentController implements Initializable {
 		sm = new SchoolManagement();
 		setup();
 
+		updateTableViewToShowStudents();
 	}
 
 	private void setup() {
@@ -62,8 +64,8 @@ public class EducationStudentController implements Initializable {
 	}
 
 	public void updateTableViewToShowStudents() {
-		Education education = sm.getEducationByIdWithStudents(getIdOfEducation());
 		table.getItems().clear();
+		Education education = sm.getEducationByIdWithStudents(getIdOfEducation());
 		List<Student> students = education.getStudents();
 
 		for (Student student : students) {
