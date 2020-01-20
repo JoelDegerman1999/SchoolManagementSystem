@@ -61,23 +61,33 @@ public class StatisticsDaoImpl implements StatisticsDao {
 
 	@Override
 	public int numberOfEducations() {
-
-		EntityManager em = emf.createEntityManager();
-		em.getTransaction().begin();
-		long numberOfEducations = em.createQuery("select Count(e) from Education as e", Long.class).getSingleResult();
-		em.getTransaction().commit();
-		em.close();
-		return (int) numberOfEducations;
+		try {
+			EntityManager em = emf.createEntityManager();
+			em.getTransaction().begin();
+			long numberOfEducations = em.createQuery("select Count(e) from Education as e", Long.class)
+					.getSingleResult();
+			em.getTransaction().commit();
+			em.close();
+			return (int) numberOfEducations;
+		} catch (Exception e) {
+			System.out.println("Error while getting number of educations");
+			return 0;
+		}
 	}
 
 	@Override
 	public int numberOfCourses() {
-		EntityManager em = emf.createEntityManager();
-		em.getTransaction().begin();
-		long numberOfCourses = em.createQuery("select Count(c) from Course as c", Long.class).getSingleResult();
-		em.getTransaction().commit();
-		em.close();
-		return (int) numberOfCourses;
+		try {
+			EntityManager em = emf.createEntityManager();
+			em.getTransaction().begin();
+			long numberOfCourses = em.createQuery("select Count(c) from Course as c", Long.class).getSingleResult();
+			em.getTransaction().commit();
+			em.close();
+			return (int) numberOfCourses;
+		} catch (Exception e) {
+			System.out.println("Error while getting number of courses");
+			return 0;
+		}
 	}
 
 }
