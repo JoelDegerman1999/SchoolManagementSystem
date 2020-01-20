@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
@@ -12,7 +13,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.MenuItem;
@@ -21,10 +25,13 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import service.SchoolManagement;
 
 public class StudentController implements Initializable {
+	
+	private StudentController studentController = this;
 
 	@FXML
 	private TableView<Student> table;
@@ -58,7 +65,7 @@ public class StudentController implements Initializable {
 		deleteRowFromTable();
 	}
 
-	private void updateTable() {
+	public void updateTable() {
 		table.getItems().clear();
 		ObservableList<Student> observableList = FXCollections.observableArrayList();
 
@@ -78,6 +85,7 @@ public class StudentController implements Initializable {
 				final TableRow<Student> row = new TableRow<>();
 				final ContextMenu contextMenu = new ContextMenu();
 				final MenuItem removeMenuItem = new MenuItem("Remove");
+				final MenuItem updateMenuItem = new MenuItem("Update");
 				removeMenuItem.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
@@ -89,14 +97,30 @@ public class StudentController implements Initializable {
 
 					}
 				});
-				final MenuItem updateMenuItem = new MenuItem("update");
 				updateMenuItem.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
-						Student student = row.getItem();
-						student.setName("Charlotte");
-						sm.updateStudent(student);
-						updateTable();
+						Parent root;
+						try {
+							FXMLLoader fxmlLoader = new FXMLLoader(
+									getClass().getResource("/gui/UpdateName.fxml"));
+
+							root = fxmlLoader.load();
+							Stage stage = new Stage();
+							stage.setTitle("Update");
+							stage.setScene(new Scene(root));
+							int id = row.getItem().getId();
+
+							UpdateNameController controller = fxmlLoader
+									.<UpdateNameController>getController();
+							controller.setId(id);
+							controller.isStudent = true;
+							controller.setStudentController(studentController);
+							stage.show();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+
 					}
 				});
 				contextMenu.getItems().add(removeMenuItem);

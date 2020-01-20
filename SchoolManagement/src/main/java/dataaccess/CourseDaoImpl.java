@@ -78,6 +78,23 @@ public class CourseDaoImpl implements CourseDao {
 			return null;
 		}
 	}
+	
+
+	@Override
+	public Course getCourseByIdWithTeachers(int idOfTeacher) {
+		try {
+			EntityManager em = emf.createEntityManager();
+			em.getTransaction().begin();
+			Course course = em.createQuery("select c from Course as c left join fetch c.teachers where c.id = :id",
+					Course.class).setParameter("id", idOfTeacher).getSingleResult();
+			em.getTransaction().commit();
+			em.close();
+			return course;
+		} catch (Exception e) {
+			System.out.println("Error while getting the course by Id with teachers");
+			return null;
+		}
+	}
 
 	@Override
 	public Course getCourseById(int id) {

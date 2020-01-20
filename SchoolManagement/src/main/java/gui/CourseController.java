@@ -48,6 +48,7 @@ public class CourseController implements Initializable {
 	private TextField textFieldName;
 
 	private SchoolManagement sm;
+	private CourseController courseController = this;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -65,7 +66,7 @@ public class CourseController implements Initializable {
 		addButtonToTeacherColumn();
 	}
 
-	private void updateTable() {
+	public void updateTable() {
 		table.getItems().clear();
 		ObservableList<Course> observableList = FXCollections.observableArrayList();
 
@@ -85,6 +86,7 @@ public class CourseController implements Initializable {
 				final TableRow<Course> row = new TableRow<>();
 				final ContextMenu contextMenu = new ContextMenu();
 				final MenuItem removeMenuItem = new MenuItem("Remove");
+				final MenuItem updateMenuItem = new MenuItem("Update");
 				removeMenuItem.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
@@ -99,7 +101,36 @@ public class CourseController implements Initializable {
 
 					}
 				});
+				
+				updateMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						Parent root;
+						try {
+							FXMLLoader fxmlLoader = new FXMLLoader(
+									getClass().getResource("/gui/UpdateName.fxml"));
+
+							root = fxmlLoader.load();
+							Stage stage = new Stage();
+							stage.setTitle("Update");
+							stage.setScene(new Scene(root));
+							int id = row.getItem().getId();
+
+							UpdateNameController controller = fxmlLoader
+									.<UpdateNameController>getController();
+							controller.setId(id);
+							controller.isCourse = true;
+							controller.setCourseController(courseController);
+							stage.show();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+
+					}
+				});
+				
 				contextMenu.getItems().add(removeMenuItem);
+				contextMenu.getItems().add(updateMenuItem);
 				// Set context menu on row, but use a binding to make it only show for non-empty
 				// rows:
 				row.contextMenuProperty()
@@ -138,7 +169,6 @@ public class CourseController implements Initializable {
 								Course item = table.getItems().get(row);
 								TableColumn<Course, Integer> col = pos.getTableColumn();
 								int data = col.getCellObservableValue(item).getValue();
-								System.out.println(data);
 								controller.setIdOfCourse(data);
 								stage.show();
 							} catch (IOException e) {
@@ -174,9 +204,30 @@ public class CourseController implements Initializable {
 					private final Button btn = new Button("Teacher(s)");
 					{
 						btn.setOnAction((ActionEvent event) -> {
-							// TODO Gör så att det öppnas ett litet fönster som visar alla educations som
-							// denna kurs finns inom, gör så att man kan lägga till och ta bort.
-							System.out.println("Opening teachers");
+							Parent root;
+							try {
+								FXMLLoader fxmlLoader = new FXMLLoader(
+										getClass().getResource("/gui/CourseTeacher.fxml"));
+
+								root = fxmlLoader.load();
+								Stage stage = new Stage();
+								stage.setTitle("Teachers");
+								stage.setScene(new Scene(root));
+
+								CourseTeacherController controller = fxmlLoader
+										.<CourseTeacherController>getController();
+								@SuppressWarnings("unchecked")
+								TablePosition<Course, Integer> pos = table.getSelectionModel().getSelectedCells()
+										.get(0);
+								int row = pos.getRow();
+								Course item = table.getItems().get(row);
+								TableColumn<Course, Integer> col = pos.getTableColumn();
+								int data = col.getCellObservableValue(item).getValue();
+								controller.setIdOfTeacher(data);
+								stage.show();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
 						});
 					}
 					

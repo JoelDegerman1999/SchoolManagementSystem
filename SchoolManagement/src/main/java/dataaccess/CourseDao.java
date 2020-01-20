@@ -20,4 +20,6 @@ public interface CourseDao {
 	public List<Course> getAllCoursesWithTeachers();
 
 	Course getCourseById(int id);
+
+	public Course getCourseByIdWithTeachers(int idOfTeacher);
 }

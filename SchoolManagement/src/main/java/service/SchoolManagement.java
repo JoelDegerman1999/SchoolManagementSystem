@@ -69,6 +69,10 @@ public class SchoolManagement {
 	public Course getCourseByIdWithEducations(int id) {
 		return courseDao.getCourseByIdWithEducations(id);
 	}
+	
+	public Course getCourseByIdWithTeachers(int idOfTeacher) {
+		return courseDao.getCourseByIdWithTeachers(idOfTeacher);
+	}
 
 	public Course getCourseById(int id) {
 		return courseDao.getCourseById(id);
@@ -184,4 +188,6 @@ public class SchoolManagement {
 	public List<Teacher> getAllTeachers() {
 		return teacherDao.getAllTeachers();
 	}
+
+	
 }

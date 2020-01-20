@@ -36,6 +36,8 @@ import javafx.util.Callback;
 import service.SchoolManagement;
 
 public class EducationController implements Initializable {
+	
+	private EducationController educationController = this;
 
 	SchoolManagement sm;
 
@@ -94,7 +96,7 @@ public class EducationController implements Initializable {
 		endDatePicker.setValue(null);
 	}
 
-	private void updateTableViewToShowEducations() {
+	public void updateTableViewToShowEducations() {
 		table.getItems().clear();
 		ObservableList<Education> observableList = FXCollections.observableArrayList();
 
@@ -225,6 +227,7 @@ public class EducationController implements Initializable {
 				final TableRow<Education> row = new TableRow<>();
 				final ContextMenu contextMenu = new ContextMenu();
 				final MenuItem removeMenuItem = new MenuItem("Remove");
+				final MenuItem updateMenuItem = new MenuItem("Update");
 				removeMenuItem.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
@@ -237,6 +240,33 @@ public class EducationController implements Initializable {
 
 					}
 				});
+				updateMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						Parent root;
+						try {
+							FXMLLoader fxmlLoader = new FXMLLoader(
+									getClass().getResource("/gui/UpdateName.fxml"));
+
+							root = fxmlLoader.load();
+							Stage stage = new Stage();
+							stage.setTitle("Update");
+							stage.setScene(new Scene(root));
+							int id = row.getItem().getId();
+
+							UpdateNameController controller = fxmlLoader
+									.<UpdateNameController>getController();
+							controller.setId(id);
+							controller.isEducation = true;
+							controller.setEducationController(educationController);
+							stage.show();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+
+					}
+				});
+				contextMenu.getItems().add(updateMenuItem);
 				contextMenu.getItems().add(removeMenuItem);
 				// Set context menu on row, but use a binding to make it only show for non-empty
 				// rows:
