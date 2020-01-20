@@ -22,7 +22,6 @@ public class StatisticsDaoImpl implements StatisticsDao {
 		em.getTransaction().begin();
 		List<LocalDate> allAges = em.createQuery("select s.birthdate from Student as s", LocalDate.class)
 				.getResultList();
-		System.out.println(allAges);
 		for (LocalDate thisAge : allAges) {
 			if (thisAge != null) {
 				totalAge += ChronoUnit.YEARS.between(thisAge, LocalDate.now());

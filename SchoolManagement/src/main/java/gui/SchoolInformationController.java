@@ -1,11 +1,8 @@
 package gui;
 
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -43,7 +40,8 @@ public class SchoolInformationController implements Initializable{
 		totalTeacherText.setText(String.valueOf(sm.getTotalAmmountOfTeachers()));
 	}
 	private void averageAgeOfStudent() {
-		averageAgeOfStudentText.setText(String.valueOf(sm.averageAgeOfAllStudents()));
+		DecimalFormat df = new DecimalFormat("#.##");
+		averageAgeOfStudentText.setText(String.valueOf(df.format(sm.averageAgeOfAllStudents())));
 	}
 	
 }

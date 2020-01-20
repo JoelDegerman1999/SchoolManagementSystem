@@ -136,7 +136,6 @@ public class EducationController implements Initializable {
 								Education item = table.getItems().get(row);
 								TableColumn<Education, Integer> col = pos.getTableColumn();
 								int data = col.getCellObservableValue(item).getValue();
-								System.out.println(data);
 								controller.setIdOfEducation(data);
 								stage.show();
 							} catch (IOException e) {
