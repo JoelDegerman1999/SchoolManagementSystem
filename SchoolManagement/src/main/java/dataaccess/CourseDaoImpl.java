@@ -28,8 +28,8 @@ public class CourseDaoImpl implements CourseDao {
 			return course;
 		} catch (Exception e) {
 			System.out.println("Error while creating the course");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -43,8 +43,8 @@ public class CourseDaoImpl implements CourseDao {
 			return course;
 		} catch (Exception e) {
 			System.out.println("Error while updating the course");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -59,8 +59,8 @@ public class CourseDaoImpl implements CourseDao {
 			return course;
 		} catch (Exception e) {
 			System.out.println("Error while deleting the course");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -75,8 +75,8 @@ public class CourseDaoImpl implements CourseDao {
 			return course;
 		} catch (Exception e) {
 			System.out.println("Error while getting the course by Id with educations");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -91,8 +91,8 @@ public class CourseDaoImpl implements CourseDao {
 			return course;
 		} catch (Exception e) {
 			System.out.println("Error while getting the course by Id");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -107,8 +107,8 @@ public class CourseDaoImpl implements CourseDao {
 			return course;
 		} catch (Exception e) {
 			System.out.println("Error while getting the course by subject name");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -124,8 +124,8 @@ public class CourseDaoImpl implements CourseDao {
 			return courses;
 		} catch (Exception e) {
 			System.out.println("Error while getting all courses with educations");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -141,8 +141,8 @@ public class CourseDaoImpl implements CourseDao {
 			return courses;
 		} catch (Exception e) {
 			System.out.println("Error while getting all courses with teachers");
+			return null;
 		}
-		return null;
 	}
 
 }

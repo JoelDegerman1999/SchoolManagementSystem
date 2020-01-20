@@ -30,8 +30,8 @@ public class StudentDaoImpl implements StudentDao {
 
 		} catch (Exception e) {
 			System.out.println("Error while creating the student");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -45,8 +45,8 @@ public class StudentDaoImpl implements StudentDao {
 			return student;
 		} catch (Exception e) {
 			System.out.println("Error while updating the student");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -61,8 +61,8 @@ public class StudentDaoImpl implements StudentDao {
 			return student;
 		} catch (Exception e) {
 			System.out.println("Error while deleting the student");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -76,8 +76,8 @@ public class StudentDaoImpl implements StudentDao {
 			return foundStudent;
 		} catch (Exception e) {
 			System.out.println("Error while getting the student by Id");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -92,8 +92,8 @@ public class StudentDaoImpl implements StudentDao {
 			return students;
 		} catch (Exception e) {
 			System.out.println("Error while getting all students");
+			return null;
 		}
-		return null;
 	}
 
 }

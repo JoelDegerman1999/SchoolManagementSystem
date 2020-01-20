@@ -28,8 +28,8 @@ public class EducationDaoImpl implements EducationDao {
 			return education;
 		} catch (Exception e) {
 			System.out.println("Error while creating the education");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -43,8 +43,8 @@ public class EducationDaoImpl implements EducationDao {
 			return education;
 		} catch (Exception e) {
 			System.out.println("Error while updating the education");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -59,8 +59,8 @@ public class EducationDaoImpl implements EducationDao {
 			return education;
 		} catch (Exception e) {
 			System.out.println("Error while deleting the education");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -74,8 +74,8 @@ public class EducationDaoImpl implements EducationDao {
 			return education;
 		} catch (Exception e) {
 			System.out.println("Error while getting the education by Id");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -92,8 +92,8 @@ public class EducationDaoImpl implements EducationDao {
 			return education;
 		} catch (Exception e) {
 			System.out.println("Error while getting the education by Id with students");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -110,8 +110,8 @@ public class EducationDaoImpl implements EducationDao {
 			return education;
 		} catch (Exception e) {
 			System.out.println("Error while getting the education by Id with courses");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -127,8 +127,8 @@ public class EducationDaoImpl implements EducationDao {
 			return education;
 		} catch (Exception e) {
 			System.out.println("Error while getting the education by name");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -136,14 +136,15 @@ public class EducationDaoImpl implements EducationDao {
 		try {
 			EntityManager em = emf.createEntityManager();
 			em.getTransaction().begin();
-			List<Education> educations = em.createQuery("select e from Education as e", Education.class).getResultList();
+			List<Education> educations = em.createQuery("select e from Education as e", Education.class)
+					.getResultList();
 			em.getTransaction().commit();
 			em.close();
 			return educations;
 		} catch (Exception e) {
 			System.out.println("Error while getting all educations");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -159,8 +160,8 @@ public class EducationDaoImpl implements EducationDao {
 			return educations;
 		} catch (Exception e) {
 			System.out.println("Error while getting all educations with students");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -176,8 +177,8 @@ public class EducationDaoImpl implements EducationDao {
 			return educations;
 		} catch (Exception e) {
 			System.out.println("Error while getting all educations with courses");
+			return null;
 		}
-		return null;
 	}
 
 }

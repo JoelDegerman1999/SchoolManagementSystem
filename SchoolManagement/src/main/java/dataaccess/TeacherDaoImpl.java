@@ -29,8 +29,8 @@ public class TeacherDaoImpl implements TeacherDao {
 			return newTeacher;
 		} catch (Exception e) {
 			System.out.println("Error while creating the teacher");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -44,8 +44,8 @@ public class TeacherDaoImpl implements TeacherDao {
 			return teacher;
 		} catch (Exception e) {
 			System.out.println("Error while updating the teacher");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -61,8 +61,8 @@ public class TeacherDaoImpl implements TeacherDao {
 			return teacher;
 		} catch (Exception e) {
 			System.out.println("Error while deleting the teacher");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -78,8 +78,8 @@ public class TeacherDaoImpl implements TeacherDao {
 			return teacher;
 		} catch (Exception e) {
 			System.out.println("Error while getting the teacher by Id with courses");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -93,8 +93,8 @@ public class TeacherDaoImpl implements TeacherDao {
 			return teacher;
 		} catch (Exception e) {
 			System.out.println("Error while getting the teacher by Id");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -110,8 +110,8 @@ public class TeacherDaoImpl implements TeacherDao {
 			return teachers;
 		} catch (Exception e) {
 			System.out.println("Error while getting all teachers with courses");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -126,8 +126,8 @@ public class TeacherDaoImpl implements TeacherDao {
 			return teachers;
 		} catch (Exception e) {
 			System.out.println("Error while getting all teachers");
+			return null;
 		}
-		return null;
 	}
 
 }

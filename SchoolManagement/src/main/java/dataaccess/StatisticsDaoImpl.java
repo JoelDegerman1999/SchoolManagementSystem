@@ -6,11 +6,14 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 public class StatisticsDaoImpl implements StatisticsDao {
 
-	EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
+	EntityManagerFactory emf;
+
+	public StatisticsDaoImpl(EntityManagerFactory emf) {
+		this.emf = emf;
+	}
 
 	@Override
 	public double averageAgeOfStudents() {
@@ -38,8 +41,8 @@ public class StatisticsDaoImpl implements StatisticsDao {
 
 		} catch (Exception e) {
 			System.out.println("Error while getting average age of students");
+			return 0;
 		}
-		return 0;
 	}
 
 	@Override
@@ -53,8 +56,8 @@ public class StatisticsDaoImpl implements StatisticsDao {
 			return (int) numberOfStudents;
 		} catch (Exception e) {
 			System.out.println("Error while getting number of students");
+			return 0;
 		}
-		return 0;
 	}
 
 	@Override
@@ -68,12 +71,8 @@ public class StatisticsDaoImpl implements StatisticsDao {
 			return (int) numberOfTeachers;
 		} catch (Exception e) {
 			System.out.println("Error while getting number of teachers");
+			return 0;
 		}
-		return 0;
-	}
-
-	public StatisticsDaoImpl(EntityManagerFactory emf) {
-		this.emf = emf;
 	}
 
 	@Override
@@ -88,8 +87,8 @@ public class StatisticsDaoImpl implements StatisticsDao {
 			return (int) numberOfEducations;
 		} catch (Exception e) {
 			System.out.println("Error while getting number of educations");
+			return 0;
 		}
-		return 0;
 	}
 
 	@Override
@@ -103,8 +102,8 @@ public class StatisticsDaoImpl implements StatisticsDao {
 			return (int) numberOfCourses;
 		} catch (Exception e) {
 			System.out.println("Error while getting number of courses");
+			return 0;
 		}
-		return 0;
 	}
 
 }
