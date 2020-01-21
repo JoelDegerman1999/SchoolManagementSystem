@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 import domain.Student;
 
@@ -83,7 +82,6 @@ public class StudentDaoImpl implements StudentDao {
 	@Override
 	public List<Student> getAllStudents() {
 		try {
-
 			EntityManager em = emf.createEntityManager();
 			em.getTransaction().begin();
 			List<Student> students = em.createQuery("select s from Student as s", Student.class).getResultList();

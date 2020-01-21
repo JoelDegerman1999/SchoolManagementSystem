@@ -42,7 +42,7 @@ public class CourseTeacherController implements Initializable {
 		dateHired.setCellValueFactory(new PropertyValueFactory<>("dateHired"));
 	}
 	
-	public void updateTableViewToShowTeachers() {
+	public void updateTableView(){
 		table.getItems().clear();
 		Course course = sm.getCourseByIdWithTeachers(getIdOfTeacher());
 		List<Teacher> teachers = course.getTeachers();

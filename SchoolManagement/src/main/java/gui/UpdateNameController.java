@@ -46,7 +46,7 @@ public class UpdateNameController implements Initializable {
 			course.setSubject(nameTextField.getText());
 			sm.updateCourse(course);
 			nameTextField.clear();
-			courseController.updateTable();
+			courseController.updateTableView();
 			Stage stage = (Stage) updateNameBtn.getScene().getWindow();
 			stage.close();
 			isCourse = false;
@@ -76,7 +76,7 @@ public class UpdateNameController implements Initializable {
 			education.setName(nameTextField.getText());
 			sm.updateEducation(education);
 			nameTextField.clear();
-			educationController.updateTableViewToShowEducations();
+			educationController.updateTableView();
 			Stage stage = (Stage) updateNameBtn.getScene().getWindow();
 			stage.close();
 			isEducation = false;

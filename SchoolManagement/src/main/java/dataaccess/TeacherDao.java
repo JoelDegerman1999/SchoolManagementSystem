@@ -13,12 +13,13 @@ public interface TeacherDao {
 
 	public Teacher delete(Teacher teacher);
 
+	public Teacher getTeacherById(int id);
+
 	public Teacher getTeacherByIdWithCourses(int id);
+
+	public List<Teacher> getAllTeachers();
 
 	public List<Teacher> getAllTeachersWithCourses();
 
-	public Teacher getTeacherById(int id);
-
-	public List<Teacher> getAllTeachers();
 
 }

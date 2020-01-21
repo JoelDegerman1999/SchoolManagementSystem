@@ -78,10 +78,6 @@ public class SchoolManagement {
 		return courseDao.getCourseById(id);
 	}
 
-	public Course getCourseBySubjectName(String subjectName) {
-		return courseDao.getCourseBySubjectName(subjectName);
-	}
-
 	public Course updateCourse(Course course) {
 		return courseDao.update(course);
 	}
@@ -113,10 +109,6 @@ public class SchoolManagement {
 
 	public Education getEducationById(int id) {
 		return educationDao.getEducationById(id);
-	}
-
-	public Education getEducationByName(String name) {
-		return educationDao.getEducationByName(name);
 	}
 
 	public Education updateEducation(Education education) {

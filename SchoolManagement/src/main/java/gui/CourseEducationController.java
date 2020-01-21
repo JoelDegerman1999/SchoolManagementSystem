@@ -44,7 +44,7 @@ public class CourseEducationController implements Initializable {
 		endDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
 	}
 
-	public void updateTableViewToShowEducations() {
+	public void updateTableView() {
 		table.getItems().clear();
 		List<Education> educations = sm.getAllEducationsWithCourses();
 

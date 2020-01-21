@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 import domain.Course;
 
@@ -64,39 +63,6 @@ public class CourseDaoImpl implements CourseDao {
 	}
 
 	@Override
-	public Course getCourseByIdWithEducations(int id) {
-		try {
-			EntityManager em = emf.createEntityManager();
-			em.getTransaction().begin();
-			Course course = em.createQuery("select c from Course as c left join fetch c.educations where c.id = :id",
-					Course.class).setParameter("id", id).getSingleResult();
-			em.getTransaction().commit();
-			em.close();
-			return course;
-		} catch (Exception e) {
-			System.out.println("Error while getting the course by Id with educations");
-			return null;
-		}
-	}
-	
-
-	@Override
-	public Course getCourseByIdWithTeachers(int idOfTeacher) {
-		try {
-			EntityManager em = emf.createEntityManager();
-			em.getTransaction().begin();
-			Course course = em.createQuery("select c from Course as c left join fetch c.teachers where c.id = :id",
-					Course.class).setParameter("id", idOfTeacher).getSingleResult();
-			em.getTransaction().commit();
-			em.close();
-			return course;
-		} catch (Exception e) {
-			System.out.println("Error while getting the course by Id with teachers");
-			return null;
-		}
-	}
-
-	@Override
 	public Course getCourseById(int id) {
 		try {
 			EntityManager em = emf.createEntityManager();
@@ -113,21 +79,55 @@ public class CourseDaoImpl implements CourseDao {
 	}
 
 	@Override
-	public Course getCourseBySubjectName(String subjectName) {
+	public Course getCourseByIdWithEducations(int id) {
 		try {
 			EntityManager em = emf.createEntityManager();
 			em.getTransaction().begin();
-			Course course = em.createQuery("select c from Course as c where c.name=:name", Course.class)
-					.setParameter("name", subjectName).getSingleResult();
+			Course course = em.createQuery("select c from Course as c left join fetch c.educations where c.id = :id",
+					Course.class).setParameter("id", id).getSingleResult();
 			em.getTransaction().commit();
 			em.close();
 			return course;
 		} catch (Exception e) {
-			System.out.println("Error while getting the course by subject name");
+			System.out.println("Error while getting the course by Id with educations");
 			return null;
 		}
 	}
 
+	@Override
+	public Course getCourseByIdWithTeachers(int idOfTeacher) {
+		try {
+			EntityManager em = emf.createEntityManager();
+			em.getTransaction().begin();
+			Course course = em
+					.createQuery("select c from Course as c left join fetch c.teachers where c.id = :id", Course.class)
+					.setParameter("id", idOfTeacher).getSingleResult();
+			em.getTransaction().commit();
+			em.close();
+			return course;
+		} catch (Exception e) {
+			System.out.println("Error while getting the course by Id with teachers");
+			return null;
+		}
+	}
+
+	@Override
+	public List<Course> getAllCourses() {
+		try {
+			EntityManager em = emf.createEntityManager();
+			em.getTransaction().begin();
+			List<Course> courses = em
+					.createQuery("select distinct c from Course as c", Course.class)
+					.getResultList();
+			em.getTransaction().commit();
+			em.close();
+			return courses;
+		} catch (Exception e) {
+			System.out.println("Error while getting all courses");
+			return null;
+		}
+	}
+	
 	@Override
 	public List<Course> getAllCoursesWithEducations() {
 		try {

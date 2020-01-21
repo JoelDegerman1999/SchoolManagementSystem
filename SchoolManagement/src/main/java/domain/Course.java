@@ -52,14 +52,6 @@ public class Course {
 		return id;
 	}
 
-	public String test() {
-		StringBuilder builder = new StringBuilder();
-		for (Teacher teacher : teachers) {
-			builder.append(teacher.getName() + ", ");
-		}
-		return builder.toString();
-	}
-
 	@Override
 	public String toString() {
 		return "Course : " + getSubject() + " id : " + getId();

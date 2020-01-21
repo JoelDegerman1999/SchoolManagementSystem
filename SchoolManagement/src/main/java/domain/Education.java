@@ -34,8 +34,8 @@ public class Education {
 	public Education() {
 	}
 
-	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "education")
-	private List<Student> students;
+	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "education")
+	private List<Student> enrolledStudents;
 
 	@ManyToMany
 	private List<Course> courses;
@@ -44,12 +44,12 @@ public class Education {
 		this.name = name;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		students = new ArrayList<Student>();
+		enrolledStudents = new ArrayList<Student>();
 		courses = new ArrayList<Course>();
 	}
 
 	public void addStudentToEducation(Student student) {
-		this.students.add(student);
+		this.enrolledStudents.add(student);
 		student.setEducation(this);
 	}
 
@@ -57,16 +57,17 @@ public class Education {
 		this.courses.add(course);
 		course.getEducations().add(this);
 	}
-	
+
 	public void removeStudentFromEducation(Student student) {
-		this.students.remove(student);
+		this.enrolledStudents.remove(student);
 		student.setEducation(null);
 	}
-	
+
 	public void removeCourseFromEducation(Course course) {
 		getCourses().remove(course);
+		course.getEducations().remove(this);
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -90,20 +91,20 @@ public class Education {
 	public LocalDate getEndDate() {
 		return endDate;
 	}
-	
+
 	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 
 	public List<Student> getStudents() {
-		if (students == null) {
-			students = new ArrayList<>();
+		if (enrolledStudents == null) {
+			enrolledStudents = new ArrayList<>();
 		}
-		return this.students;
+		return this.enrolledStudents;
 	}
 
 	public void setStudents(List<Student> students) {
-		this.students = students;
+		this.enrolledStudents = students;
 	}
 
 	public List<Course> getCourses() {
@@ -112,8 +113,6 @@ public class Education {
 		}
 		return this.courses;
 	}
-
-
 
 	@Override
 	public int hashCode() {
@@ -136,10 +135,10 @@ public class Education {
 			return false;
 		return true;
 	}
+
 	public String toString() {
 		return id + "  " + name + "  " + startDate + "  " + endDate;
-		
+
 	}
-	
 
 }

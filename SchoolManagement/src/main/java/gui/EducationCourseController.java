@@ -57,7 +57,7 @@ public class EducationCourseController implements Initializable {
 		deleteRowWithContextMenuDropdown();
 	}
 
-	public void updateTableViewToShowCourses() {
+	public void updateTableView() {
 		Education education = sm.getEducationByIdWithCourses(getIdOfEducation());
 		table.getItems().clear();
 		List<Course> courses = education.getCourses();
@@ -108,7 +108,7 @@ public class EducationCourseController implements Initializable {
 
 		sm.updateEducation(education);
 
-		updateTableViewToShowCourses();
+		updateTableView();
 
 		addItemsToComboBox();
 	}

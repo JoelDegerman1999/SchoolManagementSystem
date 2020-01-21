@@ -77,10 +77,10 @@ public class EducationController implements Initializable {
 		name.setCellValueFactory(new PropertyValueFactory<>("name"));
 		startDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
 		endDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-		updateTableViewToShowEducations();
+		updateTableView();
 		addButtonToColumnStudents();
 		addButtonToColumnCourse();
-		deleteRowWithContextMenuDropdown();
+		deleteEducation();
 	}
 
 	public void createEducation() {
@@ -88,7 +88,7 @@ public class EducationController implements Initializable {
 				endDatePicker.getValue());
 
 		sm.updateEducation(education);
-		updateTableViewToShowEducations();
+		updateTableView();
 		nameTextField.clear();
 		startDatePicker.getEditor().clear();
 		startDatePicker.setValue(null);
@@ -96,7 +96,7 @@ public class EducationController implements Initializable {
 		endDatePicker.setValue(null);
 	}
 
-	public void updateTableViewToShowEducations() {
+	public void updateTableView() {
 		table.getItems().clear();
 		ObservableList<Education> observableList = FXCollections.observableArrayList();
 
@@ -220,7 +220,7 @@ public class EducationController implements Initializable {
 
 	}
 
-	private void deleteRowWithContextMenuDropdown() {
+	private void deleteEducation() {
 		table.setRowFactory(new Callback<TableView<Education>, TableRow<Education>>() {
 			@Override
 			public TableRow<Education> call(TableView<Education> tableView) {

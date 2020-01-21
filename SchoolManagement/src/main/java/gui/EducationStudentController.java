@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.controlsfx.control.CheckComboBox;
-import org.hibernate.cache.spi.UpdateTimestampsCache;
 
 import domain.Education;
 import domain.Student;

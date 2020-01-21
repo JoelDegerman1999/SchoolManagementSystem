@@ -115,23 +115,6 @@ public class EducationDaoImpl implements EducationDao {
 	}
 
 	@Override
-	public Education getEducationByName(String name) {
-		try {
-			EntityManager em = emf.createEntityManager();
-			em.getTransaction().begin();
-			Education education = em
-					.createQuery("select edu from Education as edu where edu.name=:name", Education.class)
-					.setParameter("name", name).getSingleResult();
-			em.getTransaction().commit();
-			em.close();
-			return education;
-		} catch (Exception e) {
-			System.out.println("Error while getting the education by name");
-			return null;
-		}
-	}
-
-	@Override
 	public List<Education> getAllEducations() {
 		try {
 			EntityManager em = emf.createEntityManager();
