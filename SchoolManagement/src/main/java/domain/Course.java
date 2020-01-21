@@ -62,7 +62,7 @@ public class Course {
 
 	@Override
 	public String toString() {
-		return "Course : " + getSubject() + " id : " + getId();
+		return "[" + getId() + "]" + " " + getSubject();
 	}
 
 	@Override

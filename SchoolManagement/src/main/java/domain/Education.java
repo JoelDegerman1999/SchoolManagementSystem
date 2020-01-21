@@ -136,8 +136,9 @@ public class Education {
 			return false;
 		return true;
 	}
+	@Override
 	public String toString() {
-		return id + "  " + name + "  " + startDate + "  " + endDate;
+		return "[" + getId() + "]" + " " + getName();
 		
 	}
 	
