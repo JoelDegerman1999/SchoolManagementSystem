@@ -34,7 +34,7 @@ public class Education {
 	public Education() {
 	}
 
-	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "education")
+	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST }, mappedBy = "education")
 	private List<Student> enrolledStudents;
 
 	@ManyToMany
@@ -136,9 +136,9 @@ public class Education {
 		return true;
 	}
 
+	@Override
 	public String toString() {
-		return id + "  " + name + "  " + startDate + "  " + endDate;
-
+		return "[" + getId() + "]" + " " + getName();
 	}
 
 }
