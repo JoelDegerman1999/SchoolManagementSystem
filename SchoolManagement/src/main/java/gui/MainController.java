@@ -4,13 +4,13 @@ import java.io.IOException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class MainController {
 
-	
 	// This method opens up the student FXML file
 	public void openStudents(ActionEvent event) {
 		Parent root;
@@ -67,7 +67,7 @@ public class MainController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void openSchoolInformation(ActionEvent event) {
 		Parent root;
 		try {
@@ -79,6 +79,12 @@ public class MainController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void exit(ActionEvent event) {
+		Node source = (Node) event.getSource();
+		Stage theStage = (Stage) source.getScene().getWindow();
+		theStage.close();
 	}
 
 }
