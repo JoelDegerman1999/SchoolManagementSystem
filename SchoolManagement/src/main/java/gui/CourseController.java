@@ -173,6 +173,7 @@ public class CourseController implements Initializable {
 								Course item = table.getItems().get(row);
 								TableColumn<Course, Integer> col = pos.getTableColumn();
 								int data = col.getCellObservableValue(item).getValue();
+								System.out.println(data);
 								controller.setIdOfCourse(data);
 								stage.show();
 							} catch (IOException e) {

@@ -56,7 +56,7 @@ public class TeacherCourseController implements Initializable {
 		deleteRowWithContextMenuDropdown();
 	}
 
-	public void updateTableViewToShowCourses() {
+	public void updateTableView() {
 		Teacher teacher = sm.getTeacherByIdWithCourses(getIdOfTeacher());
 		table.getItems().clear();
 		List<Course> courses = teacher.getCourses();
@@ -64,13 +64,13 @@ public class TeacherCourseController implements Initializable {
 		for (Course course : courses) {
 			table.getItems().add(course);
 		}
-
+		updateAndAddItemsToComboBox();
 	}
 
 	private void updateAndAddItemsToComboBox() {
 		checkComboBox.getItems().clear();
 		List<Course> courses = sm.getAllCoursesWithTeachers();
-		Teacher teacher = sm.getTeacherById(getIdOfTeacher());
+		Teacher teacher = sm.getTeacherByIdWithCourses(getIdOfTeacher());
 		List<Course> teacherCourses = teacher.getCourses();
 		for (Course course : courses) {
 			if (course != null) {
@@ -99,7 +99,7 @@ public class TeacherCourseController implements Initializable {
 
 		sm.updateTeacher(teacher);
 
-		updateTableViewToShowCourses();
+		updateTableView();
 
 		updateAndAddItemsToComboBox();
 	}

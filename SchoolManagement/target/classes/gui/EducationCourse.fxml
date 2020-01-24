@@ -25,7 +25,7 @@
                <children>
                   <CheckComboBox fx:id="checkComboBox" title="Courses" />
                   <Button mnemonicParsing="false" onAction="#addCourseToEducationCourseGroup" stylesheets="@application.css" text="Add Course(s)" />
-                  <Button mnemonicParsing="false" onAction="#updateTableViewToShowCourses" stylesheets="@application.css" text="Update Table" />
+                  <Button mnemonicParsing="false" onAction="#updateTableView" stylesheets="@application.css" text="Update Table" />
                </children>
             </VBox>
          </children>
