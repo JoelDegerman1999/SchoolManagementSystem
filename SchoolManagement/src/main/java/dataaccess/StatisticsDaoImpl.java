@@ -78,5 +78,4 @@ public class StatisticsDaoImpl implements StatisticsDao {
 		em.close();
 		return (int) numberOfCourses;
 	}
-
 }
