@@ -48,6 +48,7 @@ public class CourseController implements Initializable {
 	private TextField textFieldName;
 
 	private SchoolManagement sm;
+	private CourseController courseController = this;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -59,13 +60,13 @@ public class CourseController implements Initializable {
 		id.setCellValueFactory(new PropertyValueFactory<>("id"));
 		subjectName.setCellValueFactory(new PropertyValueFactory<>("subject"));
 
-		updateTable();
-		deleteTableRow();
+		updateTableView();
+		deleteCourse();
 		addButtonToEducationColumn();
 		addButtonToTeacherColumn();
 	}
 
-	private void updateTable() {
+	public void updateTableView() {
 		table.getItems().clear();
 		ObservableList<Course> observableList = FXCollections.observableArrayList();
 
@@ -78,19 +79,26 @@ public class CourseController implements Initializable {
 		table.setItems(observableList);
 	}
 
-	private void deleteTableRow() {
+	public void createCourse() {
+		sm.createCourse(textFieldName.getText());
+		textFieldName.clear();
+		updateTableView();
+	}
+
+	private void deleteCourse() {
 		table.setRowFactory(new Callback<TableView<Course>, TableRow<Course>>() {
 			@Override
 			public TableRow<Course> call(TableView<Course> tableView) {
 				final TableRow<Course> row = new TableRow<>();
 				final ContextMenu contextMenu = new ContextMenu();
 				final MenuItem removeMenuItem = new MenuItem("Remove");
+				final MenuItem updateMenuItem = new MenuItem("Update");
 				removeMenuItem.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
 						Course course = sm.getCourseByIdWithEducations(row.getItem().getId());
 						List<Education> educations = sm.getAllEducationsWithCourses();
-						for (Education education: educations) {
+						for (Education education : educations) {
 							education.removeCourseFromEducation(course);
 							sm.updateEducation(education);
 						}
@@ -99,7 +107,34 @@ public class CourseController implements Initializable {
 
 					}
 				});
+
+				updateMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						Parent root;
+						try {
+							FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/UpdateName.fxml"));
+
+							root = fxmlLoader.load();
+							Stage stage = new Stage();
+							stage.setTitle("Update");
+							stage.setScene(new Scene(root));
+							int id = row.getItem().getId();
+
+							UpdateNameController controller = fxmlLoader.<UpdateNameController>getController();
+							controller.setId(id);
+							controller.isCourse = true;
+							controller.setCourseController(courseController);
+							stage.show();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+
+					}
+				});
+
 				contextMenu.getItems().add(removeMenuItem);
+				contextMenu.getItems().add(updateMenuItem);
 				// Set context menu on row, but use a binding to make it only show for non-empty
 				// rows:
 				row.contextMenuProperty()
@@ -164,22 +199,44 @@ public class CourseController implements Initializable {
 		educationButtonColumn.setCellFactory(cellFactory);
 
 	}
+
 	private void addButtonToTeacherColumn() {
-		
+
 		Callback<TableColumn<Course, Void>, TableCell<Course, Void>> cellFactory = new Callback<TableColumn<Course, Void>, TableCell<Course, Void>>() {
 			@Override
 			public TableCell<Course, Void> call(final TableColumn<Course, Void> param) {
 				final TableCell<Course, Void> cell = new TableCell<Course, Void>() {
-					
+
 					private final Button btn = new Button("Teacher(s)");
 					{
 						btn.setOnAction((ActionEvent event) -> {
-							// TODO Gör så att det öppnas ett litet fönster som visar alla educations som
-							// denna kurs finns inom, gör så att man kan lägga till och ta bort.
-							System.out.println("Opening educations");
+							Parent root;
+							try {
+								FXMLLoader fxmlLoader = new FXMLLoader(
+										getClass().getResource("/gui/CourseTeacher.fxml"));
+
+								root = fxmlLoader.load();
+								Stage stage = new Stage();
+								stage.setTitle("Teachers");
+								stage.setScene(new Scene(root));
+
+								CourseTeacherController controller = fxmlLoader
+										.<CourseTeacherController>getController();
+								@SuppressWarnings("unchecked")
+								TablePosition<Course, Integer> pos = table.getSelectionModel().getSelectedCells()
+										.get(0);
+								int row = pos.getRow();
+								Course item = table.getItems().get(row);
+								TableColumn<Course, Integer> col = pos.getTableColumn();
+								int data = col.getCellObservableValue(item).getValue();
+								controller.setIdOfTeacher(data);
+								stage.show();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
 						});
 					}
-					
+
 					@Override
 					public void updateItem(Void item, boolean empty) {
 						super.updateItem(item, empty);
@@ -193,14 +250,9 @@ public class CourseController implements Initializable {
 				return cell;
 			}
 		};
-		
+
 		teacherButtonColumn.setCellFactory(cellFactory);
-		
+
 	}
 
-	public void createCourse() {
-		sm.createCourse(textFieldName.getText());
-		textFieldName.clear();
-		updateTable();
-	}
 }

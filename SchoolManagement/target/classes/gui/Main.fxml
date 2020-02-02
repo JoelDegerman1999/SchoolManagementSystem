@@ -53,12 +53,12 @@
                         <Font name="Roboto" size="16.0" />
                      </font>
                   </Button>
-                  <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="150.0" prefWidth="210.0" stylesheets="@application.css" text="Button" GridPane.columnIndex="2">
+                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#exit" prefHeight="150.0" prefWidth="210.0" stylesheets="@application.css" text="Exit" GridPane.columnIndex="2">
                      <graphic>
-                        <FontAwesomeIconView fill="#1f7bd4" size="45" />
+                        <FontAwesomeIconView fill="#1f7bd4" glyphName="CLOSE" size="45" />
                      </graphic>
                      <font>
-                        <Font name="Roboto" size="12.0" />
+                        <Font name="Roboto" size="16.0" />
                      </font>
                   </Button>
                   <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#openStudents" prefHeight="150.0" prefWidth="210.0" stylesheets="@application.css" text="Students" GridPane.rowIndex="1">

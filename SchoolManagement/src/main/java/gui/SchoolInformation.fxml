@@ -26,13 +26,13 @@
       </Pane>
       <AnchorPane layoutY="160.0" prefHeight="440.0" prefWidth="950.0">
          <children>
-            <HBox layoutY="50.0" prefHeight="150.0" prefWidth="950.0" spacing="100.0">
+            <HBox layoutY="50.0" prefHeight="150.0" prefWidth="950.0" spacing="10.0">
                <children>
                   <Pane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #3C85C1;">
                      <children>
                         <VBox alignment="CENTER" prefHeight="150.0" prefWidth="200.0">
                            <children>
-                              <Text fx:id="totalStudentText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="500">
+                              <Text fx:id="totalStudentText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
                                  <font>
                                     <Font name="Roboto" size="40.0" />
                                  </font>
@@ -50,7 +50,7 @@
                      <children>
                         <VBox alignment="CENTER" prefHeight="150.0" prefWidth="200.0">
                            <children>
-                              <Text fx:id="totalTeacherText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="25">
+                              <Text fx:id="totalTeacherText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
                                  <font>
                                     <Font name="Roboto" size="40.0" />
                                  </font>
@@ -68,7 +68,7 @@
                      <children>
                         <VBox alignment="CENTER" prefHeight="150.0" prefWidth="200.0">
                            <children>
-                              <Text fx:id="totalEducationText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="10">
+                              <Text fx:id="totalEducationText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
                                  <font>
                                     <Font name="Roboto" size="40.0" />
                                  </font>
@@ -82,9 +82,52 @@
                         </VBox>
                      </children>
                   </Pane>
+                  <Pane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #3C85C1;">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="150.0" prefWidth="200.0">
+                           <children>
+                              <Text fx:id="totalCoursesText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                                 <font>
+                                    <Font name="Roboto" size="40.0" />
+                                 </font>
+                              </Text>
+                              <Label text="Total Courses" textFill="WHITE">
+                                 <font>
+                                    <Font name="Roboto" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                  </Pane>
                </children>
                <padding>
-                  <Insets left="75.0" />
+                  <Insets left="60.0" />
+               </padding>
+            </HBox>
+            <HBox layoutY="236.0" prefHeight="150.0" prefWidth="950.0" spacing="100.0">
+               <children>
+                  <Pane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #3C85C1;">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="150.0" prefWidth="200.0">
+                           <children>
+                              <Text fx:id="averageAgeOfStudentText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                                 <font>
+                                    <Font name="Roboto" size="40.0" />
+                                 </font>
+                              </Text>
+                              <Label text="Average age of students" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                                 <font>
+                                    <Font name="Roboto" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                  </Pane>
+               </children>
+               <padding>
+                  <Insets left="60.0" />
                </padding>
             </HBox>
          </children>

@@ -3,9 +3,18 @@ package service;
 import java.time.LocalDate;
 import java.util.List;
 
+import dataaccess.CourseDao;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 import dataaccess.CourseDaoImpl;
+import dataaccess.EducationDao;
 import dataaccess.EducationDaoImpl;
+import dataaccess.StatisticsDao;
+import dataaccess.StatisticsDaoImpl;
+import dataaccess.StudentDao;
 import dataaccess.StudentDaoImpl;
+import dataaccess.TeacherDao;
 import dataaccess.TeacherDaoImpl;
 import domain.Course;
 import domain.Education;
@@ -14,16 +23,42 @@ import domain.Teacher;
 
 public class SchoolManagement {
 
-	private CourseDaoImpl courseDao;
-	private EducationDaoImpl educationDao;
-	private StudentDaoImpl studentDao;
-	private TeacherDaoImpl teacherDao;
+	private CourseDao courseDao;
+	private EducationDao educationDao;
+	private StudentDao studentDao;
+	private TeacherDao teacherDao;
+	private StatisticsDao statisticsDao;
+
+	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
 
 	public SchoolManagement() {
-		courseDao = new CourseDaoImpl();
-		educationDao = new EducationDaoImpl();
-		studentDao = new StudentDaoImpl();
-		teacherDao = new TeacherDaoImpl();
+		courseDao = new CourseDaoImpl(emf);
+		educationDao = new EducationDaoImpl(emf);
+		studentDao = new StudentDaoImpl(emf);
+		teacherDao = new TeacherDaoImpl(emf);
+		statisticsDao = new StatisticsDaoImpl(emf);
+	}
+
+	// Statistcs
+
+	public long getTotalAmmountOfStudents() {
+		return statisticsDao.numberOfStudents();
+	}
+
+	public long getTotalAmmountOfTeachers() {
+		return statisticsDao.numberOfTeachers();
+	}
+
+	public long getTotalAmmountOfEducations() {
+		return statisticsDao.numberOfEducations();
+	}
+
+	public long getTotalAmmountOfCourses() {
+		return statisticsDao.numberOfCourses();
+	}
+
+	public double averageAgeOfAllStudents() {
+		return statisticsDao.averageAgeOfStudents();
 	}
 
 	// Courses
@@ -34,12 +69,13 @@ public class SchoolManagement {
 	public Course getCourseByIdWithEducations(int id) {
 		return courseDao.getCourseByIdWithEducations(id);
 	}
-	public Course getCourseById(int id) {
-		return courseDao.getCourseById(id);
+	
+	public Course getCourseByIdWithTeachers(int idOfTeacher) {
+		return courseDao.getCourseByIdWithTeachers(idOfTeacher);
 	}
 
-	public Course getCourseBySubjectName(String subjectName) {
-		return courseDao.getCourseBySubjectName(subjectName);
+	public Course getCourseById(int id) {
+		return courseDao.getCourseById(id);
 	}
 
 	public Course updateCourse(Course course) {
@@ -73,10 +109,6 @@ public class SchoolManagement {
 
 	public Education getEducationById(int id) {
 		return educationDao.getEducationById(id);
-	}
-
-	public Education getEducationByName(String name) {
-		return educationDao.getEducationByName(name);
 	}
 
 	public Education updateEducation(Education education) {
@@ -128,6 +160,7 @@ public class SchoolManagement {
 	public Teacher getTeacherByIdWithCourses(int id) {
 		return teacherDao.getTeacherByIdWithCourses(id);
 	}
+
 	public Teacher getTeacherById(int id) {
 		return teacherDao.getTeacherById(id);
 	}
@@ -143,7 +176,10 @@ public class SchoolManagement {
 	public List<Teacher> getAllTeachersWithCourses() {
 		return teacherDao.getAllTeachersWithCourses();
 	}
+
 	public List<Teacher> getAllTeachers() {
 		return teacherDao.getAllTeachers();
 	}
+
+	
 }

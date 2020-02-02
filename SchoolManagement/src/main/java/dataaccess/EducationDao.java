@@ -12,17 +12,16 @@ public interface EducationDao {
 
 	public Education delete(Education education);
 
-	public Education getEducationByIdWithStudents(int id);
-
-	public Education getEducationByName(String name);
-
 	public List<Education> getAllEducations();
 
 	public List<Education> getAllEducationsWithStudents();
 
 	public List<Education> getAllEducationsWithCourses();
 
-	public Education getEducationByIdWithCourses(int id);
+	public Education getEducationByIdWithStudents(int id);
 
 	public Education getEducationById(int id);
+
+	public Education getEducationByIdWithCourses(int id);
+
 }

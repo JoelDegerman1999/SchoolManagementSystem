@@ -1,11 +1,8 @@
 package gui;
 
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,25 +16,42 @@ public class SchoolInformationController implements Initializable{
 	@FXML
 	private Text totalStudentText;
 	@FXML
+	private Text averageAgeOfStudentText;
+	@FXML
 	private Text totalTeacherText;
+	@FXML
+	private Text totalCoursesText;
 	@FXML
 	private Text totalEducationText;
 	@FXML
 	private Text total;
 	
-	private EntityManagerFactory emf;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		sm = new SchoolManagement();	
-		emf = Persistence.createEntityManagerFactory("PU");
 		countStudents();
+		countTeachers();
+		countCourses();
+		countEducations();
+		averageAgeOfStudent();
 	}
 	
 	private void countStudents() {
-		EntityManager em = emf.createEntityManager();
-		Long amount = em.createQuery("select COUNT(s) from Student as s left join fetch s.educations", Long.class).getSingleResult();
-		totalStudentText.setText(String.valueOf(amount));
+		totalStudentText.setText(String.valueOf(sm.getTotalAmmountOfStudents()));
+	}
+	private void countTeachers() {
+		totalTeacherText.setText(String.valueOf(sm.getTotalAmmountOfTeachers()));
+	}
+	private void countEducations() {
+		totalEducationText.setText(String.valueOf(sm.getTotalAmmountOfEducations()));
+	}
+	private void countCourses() {
+		totalCoursesText.setText(String.valueOf(sm.getTotalAmmountOfCourses()));
+	}
+	private void averageAgeOfStudent() {
+		DecimalFormat df = new DecimalFormat("#.##");
+		averageAgeOfStudentText.setText(String.valueOf(df.format(sm.averageAgeOfAllStudents())));
 	}
 	
 }

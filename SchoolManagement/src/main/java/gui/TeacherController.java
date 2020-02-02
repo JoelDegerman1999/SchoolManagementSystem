@@ -33,6 +33,9 @@ import javafx.util.Callback;
 import service.SchoolManagement;
 
 public class TeacherController implements Initializable {
+
+	private TeacherController teacherController = this;
+	
 	@FXML
 	private TableView<Teacher> table;
 
@@ -70,7 +73,7 @@ public class TeacherController implements Initializable {
 		addButtonToCoursesColumn();
 	}
 
-	private void updateTable() {
+	public void updateTable() {
 		table.getItems().clear();
 		ObservableList<Teacher> observableList = FXCollections.observableArrayList();
 
@@ -90,6 +93,7 @@ public class TeacherController implements Initializable {
 				final TableRow<Teacher> row = new TableRow<>();
 				final ContextMenu contextMenu = new ContextMenu();
 				final MenuItem removeMenuItem = new MenuItem("Remove");
+				final MenuItem updateMenuItem = new MenuItem("Update");
 				removeMenuItem.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
@@ -98,7 +102,32 @@ public class TeacherController implements Initializable {
 						table.getItems().remove(row.getItem());
 					}
 				});
+				updateMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						Parent root;
+						try {
+							FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/UpdateName.fxml"));
+
+							root = fxmlLoader.load();
+							Stage stage = new Stage();
+							stage.setTitle("Update");
+							stage.setScene(new Scene(root));
+							int id = row.getItem().getId();
+
+							UpdateNameController controller = fxmlLoader.<UpdateNameController>getController();
+							controller.setId(id);
+							controller.isTeacher = true;
+							controller.setTeacherController(teacherController);
+							stage.show();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+
+					}
+				});
 				contextMenu.getItems().add(removeMenuItem);
+				contextMenu.getItems().add(updateMenuItem);
 				// Set context menu on row, but use a binding to make it only show for non-empty
 				// rows:
 				row.contextMenuProperty()
@@ -138,7 +167,7 @@ public class TeacherController implements Initializable {
 								TableColumn<Teacher, Integer> col = pos.getTableColumn();
 								int data = col.getCellObservableValue(item).getValue();
 								System.out.println(data);
-								controller.setIdOfEducation(data);
+								controller.setIdOfTeacher(data);
 								stage.show();
 							} catch (IOException e) {
 								e.printStackTrace();
@@ -167,6 +196,8 @@ public class TeacherController implements Initializable {
 	public void createTeacher() {
 		sm.createTeacher(textFieldName.getText(), datePicker.getValue());
 		textFieldName.clear();
+		datePicker.setValue(null);
+		datePicker.getEditor().clear();
 		updateTable();
 	}
 }

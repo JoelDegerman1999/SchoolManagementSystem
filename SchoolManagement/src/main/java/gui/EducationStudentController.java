@@ -50,7 +50,6 @@ public class EducationStudentController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		sm = new SchoolManagement();
 		setup();
-
 	}
 
 	private void setup() {
@@ -61,9 +60,11 @@ public class EducationStudentController implements Initializable {
 		deleteRowWithContextMenuDropdown();
 	}
 
-	public void updateTableViewToShowStudents() {
-		Education education = sm.getEducationByIdWithStudents(getIdOfEducation());
+	public void updateTableView() {
 		table.getItems().clear();
+		Education education = sm.getEducationByIdWithStudents(getIdOfEducation());
+		System.out.println(getIdOfEducation());
+		System.out.println(education);
 		List<Student> students = education.getStudents();
 
 		for (Student student : students) {
@@ -92,7 +93,7 @@ public class EducationStudentController implements Initializable {
 		}
 
 		sm.updateEducation(education);
-		updateTableViewToShowStudents();
+		updateTableView();
 		addItemsToComboBox();
 	}
 
